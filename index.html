@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SecondariesMatch — The Institutional Secondaries Exchange</title>
+<meta name="description" content="The institutional exchange for private market secondaries — LP interests, GP-led continuation vehicles, and direct company stakes, priced and matched in one auditable venue." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-950:#0A0E17; --ink-800:#131A2A; --ink-600:#2B3550;
+    --paper-0:#FFFFFF; --paper-50:#F7F8FA; --paper-100:#EEF0F4;
+    --line-200:#DEE2E9; --slate-500:#5B6478; --slate-300:#AEB4C4; --slate-700:#333B4F;
+    --accent-600:#0F5FDC; --accent-700:#0B49AC; --accent-50:#EAF1FE;
+    --gold-600:#8A6D1D; --positive-600:#0E7A4E; --negative-600:#B3261E;
+    --shadow-1: 0 1px 2px rgba(10,14,23,0.06), 0 8px 24px rgba(10,14,23,0.06);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fff;color:var(--slate-700);-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:Georgia,'Publico Headline',serif;color:var(--ink-950);margin:0;}
+  .tabular{font-variant-numeric:tabular-nums;}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  input,select{font-family:inherit;}
+
+  .utility-bar{height:40px;background:var(--ink-950);color:#9AA4BC;font-size:12px;}
+  .utility-bar .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;}
+  .utility-bar a{color:#fff;text-decoration:none;}
+
+  nav.primary{position:sticky;top:0;z-index:50;height:72px;background:#fff;border-bottom:1px solid var(--line-200);}
+  nav.primary .wrap{height:72px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:Georgia,serif;font-weight:700;font-size:20px;letter-spacing:-0.01em;color:var(--ink-950);}
+  .nav-links{display:flex;gap:32px;align-items:center;font-size:14px;list-style:none;margin:0;padding:0;}
+  .nav-links a{text-decoration:none;color:var(--slate-700);}
+  .nav-links a:hover{color:var(--accent-600);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:6px;font-weight:600;font-size:14px;padding:10px 18px;border:1px solid transparent;text-decoration:none;transition:background .15s,border-color .15s;background:none;}
+  .btn-primary{background:var(--accent-600);color:#fff;}
+  .btn-primary:hover{background:var(--accent-700);}
+  .btn-outline{background:transparent;border-color:var(--line-200);color:var(--ink-950);}
+  .btn-outline:hover{border-color:var(--slate-500);}
+  .btn-outline-dark{background:transparent;border-color:#4A5470;color:#fff;}
+  .btn-outline-dark:hover{border-color:#fff;}
+  .btn:disabled{background:var(--paper-100)!important;color:#9AA4BC!important;cursor:default;}
+  .btn:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid rgba(15,95,220,0.4);outline-offset:1px;}
+
+  header.hero{background:var(--ink-950);position:relative;overflow:hidden;padding:88px 0 64px;}
+  header.hero svg.bg{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.07;}
+  .hero-inner{position:relative;}
+  .eyebrow{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7C88A6;margin-bottom:20px;}
+  .hero h1{color:#fff;font-size:56px;line-height:60px;letter-spacing:-0.02em;max-width:780px;margin-bottom:24px;}
+  .hero p.sub{color:#AEB6C9;font-size:19px;line-height:28px;max-width:640px;margin-bottom:36px;}
+  .hero-ctas{display:flex;gap:16px;margin-bottom:56px;}
+  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink-600);padding-top:28px;max-width:960px;}
+  .stat{padding:0 24px;border-right:1px solid var(--ink-600);}
+  .stat:first-child{padding-left:0;}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-size:32px;color:#fff;font-weight:600;}
+  .stat .label{font-size:13px;color:#8B95AD;margin-top:6px;}
+  .stat-footnote{font-size:12px;color:#5E6884;margin-top:16px;font-style:italic;}
+
+  section{padding:96px 0;}
+  .section-eyebrow{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-600);margin-bottom:10px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .section-head h2{font-size:40px;line-height:46px;}
+  .illustrative-note{font-size:12px;color:var(--slate-500);font-style:italic;}
+
+  .segmented{display:inline-flex;gap:4px;background:var(--paper-100);padding:4px;border-radius:8px;}
+  .segmented button{border:none;background:transparent;color:var(--slate-500);padding:9px 18px;border-radius:6px;font-size:14px;font-weight:600;}
+  .segmented button.active{background:var(--ink-950);color:#fff;}
+  .segmented.light button.active{background:#fff;color:var(--ink-950);}
+
+  .filter-bar{position:sticky;top:72px;z-index:20;background:#fff;box-shadow:var(--shadow-1);border:1px solid var(--line-200);border-radius:10px;padding:16px 20px;display:flex;flex-wrap:wrap;gap:14px;align-items:end;margin:20px 0 16px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--slate-500);}
+  .field input,.field select{border:1px solid var(--line-200);border-radius:6px;padding:8px 10px;font-size:14px;}
+  .range-field{display:flex;gap:6px;align-items:center;}
+  .range-field input{width:64px;font-variant-numeric:tabular-nums;}
+  .range-field.wide input{width:76px;}
+  .range-field span{color:var(--slate-500);}
+  .density-toggle{display:flex;background:var(--paper-100);border-radius:6px;padding:3px;}
+  .density-toggle button{border:none;background:transparent;color:var(--slate-500);padding:7px 12px;border-radius:5px;font-size:13px;}
+  .density-toggle button.active{background:#fff;color:var(--ink-950);}
+  .clear-filters{margin-left:auto;border:none;background:none;color:var(--accent-600);font-size:14px;font-weight:600;}
+
+  .table-wrap{border:1px solid var(--line-200);border-radius:2px;overflow:hidden;overflow-x:auto;}
+  .t-head,.t-row{display:grid;align-items:center;}
+  .t-head{background:var(--paper-100);font-size:12px;color:var(--slate-500);font-weight:600;padding:12px 16px;white-space:nowrap;}
+  .t-row{border-top:1px solid var(--line-200);font-size:14px;cursor:pointer;padding:14px 16px;}
+  .t-row:hover{background:var(--paper-50);}
+  .num{text-align:right;}
+  .row-primary{font-weight:500;color:var(--ink-950);}
+  .row-secondary{font-size:12px;color:var(--slate-500);margin-top:2px;}
+  .pill{background:var(--paper-100);border:1px solid var(--line-200);border-radius:4px;padding:3px 8px;font-size:12px;color:var(--slate-700);white-space:nowrap;}
+  .status-cell{display:flex;align-items:center;gap:6px;font-size:13px;white-space:nowrap;}
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+  .ask-price{font-weight:600;}
+  .bid-range{color:var(--slate-500);font-size:13px;}
+  .action-btn{border:none;padding:8px 14px;border-radius:6px;font-size:13px;font-weight:600;white-space:nowrap;}
+  .table-caption{font-size:12px;color:var(--slate-500);padding:10px 4px 0;}
+  .empty-state{padding:56px;text-align:center;}
+  .empty-state p{font-size:15px;color:var(--slate-700);margin-bottom:12px;}
+
+  .featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px;}
+  .feature-card{border:1px solid var(--line-200);border-radius:10px;padding:24px;display:flex;flex-direction:column;}
+  .feature-card .top-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+  .feature-card .featured-tag{color:var(--gold-600);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;}
+  .feature-card h3{font-size:20px;line-height:28px;font-weight:600;margin-bottom:6px;font-family:inherit;}
+  .feature-card .thesis{font-size:14px;color:var(--slate-500);margin-bottom:18px;min-height:40px;}
+  .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--line-200);border-bottom:1px solid var(--line-200);padding:16px 0;margin-bottom:20px;font-size:13px;}
+  .metric-grid .m-label{color:var(--slate-500);}
+  .metric-grid .m-val{font-weight:600;color:var(--ink-950);}
+  .feature-card .actions{display:flex;gap:10px;}
+  .feature-card .actions .btn{flex:1;}
+
+  .howitworks{background:var(--paper-50);}
+  .track-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:0;}
+  .track-step .idx{width:36px;height:36px;border-radius:50%;background:var(--ink-950);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;margin-bottom:16px;}
+  .track-step h4{font-size:15px;margin-bottom:6px;font-family:inherit;font-weight:600;}
+  .track-step p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
+
+  .security-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px;}
+  .security-item h4{font-size:15px;margin:14px 0 6px;font-family:inherit;font-weight:600;}
+  .security-item p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
+
+  .insights{background:var(--paper-50);}
+  .insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px;}
+  .insight-card{background:#fff;border:1px solid var(--line-200);border-radius:10px;padding:24px;}
+  .insight-card .date{font-size:12px;color:var(--slate-500);margin-bottom:10px;}
+  .insight-card h4{font-size:17px;line-height:24px;margin-bottom:10px;font-family:inherit;font-weight:600;}
+  .insight-card p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
+
+  .closing-cta{background:var(--ink-950);text-align:center;}
+  .closing-cta h2{color:#fff;font-size:36px;line-height:42px;max-width:640px;margin:0 auto 32px;}
+  .closing-cta .hero-ctas{justify-content:center;margin-bottom:0;}
+
+  footer{background:var(--ink-950);color:#8B95AD;padding:64px 0 32px;font-size:13px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+  .footer-grid h5{color:#fff;font-size:13px;font-weight:600;margin-bottom:14px;font-family:inherit;}
+  .footer-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .footer-grid a{text-decoration:none;color:#8B95AD;}
+  .footer-grid a:hover{color:#fff;}
+  .footer-legal{border-top:1px solid var(--ink-600);padding-top:24px;display:flex;justify-content:space-between;font-size:12px;gap:24px;flex-wrap:wrap;}
+
+  .overlay{position:fixed;inset:0;background:rgba(10,14,23,0.45);z-index:90;display:none;}
+  .overlay.active{display:block;}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:480px;max-width:92vw;background:#fff;z-index:91;box-shadow:var(--shadow-1);padding:32px;overflow-y:auto;transform:translateX(100%);transition:transform .2s ease-out;}
+  .drawer.active{transform:translateX(0);}
+  .drawer-close{border:none;background:none;font-size:20px;color:var(--slate-500);}
+  .drawer h3{font-size:22px;font-weight:600;margin-bottom:4px;}
+  .drawer .sub{font-size:13px;color:var(--slate-500);margin-bottom:20px;font-style:italic;}
+  .drawer .desc{font-size:14px;line-height:22px;margin-bottom:24px;color:var(--slate-700);}
+  .kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px solid var(--line-200);border-bottom:1px solid var(--line-200);padding:20px 0;margin-bottom:24px;font-size:13px;}
+  .kv-grid .k{color:var(--slate-500);}
+  .kv-grid .v{font-weight:600;margin-top:2px;}
+  .doc-label{font-size:12px;color:var(--slate-500);margin-bottom:8px;font-weight:600;}
+  .doc-text{font-size:13px;color:var(--slate-500);line-height:20px;margin-bottom:24px;}
+
+  .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);width:520px;max-width:90vw;background:#fff;border-radius:10px;box-shadow:var(--shadow-1);z-index:96;padding:32px;display:none;}
+  .modal.active{display:block;}
+  .modal-step-label{font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--slate-500);}
+  .modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+  .modal-title{font-size:20px;font-weight:600;color:var(--ink-950);margin-bottom:24px;font-family:inherit;}
+  .modal-body{display:flex;flex-direction:column;gap:16px;margin-bottom:28px;}
+  .modal-body label{font-size:12px;color:var(--slate-500);display:block;margin-bottom:6px;}
+  .modal-body input,.modal-body select{border:1px solid var(--line-200);border-radius:6px;padding:10px 12px;font-size:14px;width:100%;}
+  .toggle-row{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--slate-700);cursor:pointer;}
+  .summary-card{background:var(--paper-50);border:1px solid var(--line-200);border-radius:8px;padding:18px;font-size:13px;}
+  .summary-card .name{font-weight:600;color:var(--ink-950);margin-bottom:10px;}
+  .summary-card .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .progress-row{display:flex;}
+  .progress-step{flex:1;text-align:center;}
+  .progress-dot{width:10px;height:10px;border-radius:50%;margin:0 auto 8px;}
+  .progress-label{font-size:11px;}
+  .modal-foot{display:flex;gap:10px;justify-content:space-between;}
+
+  @media (max-width: 980px){
+    .hero h1{font-size:38px;}
+    .stat-strip{grid-template-columns:repeat(2,1fr);}
+    .track-grid,.featured-grid,.security-grid,.insight-grid,.footer-grid{grid-template-columns:1fr 1fr;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="utility-bar">
+  <div class="wrap">
+    <div>Institutional access only &nbsp;·&nbsp; SOC 2 Type II &nbsp;·&nbsp; Member FINRA-registered broker-dealer network</div>
+    <div style="display:flex;gap:20px;align-items:center;">
+      <span>United States · USD</span>
+      <a href="#">Sign In</a>
+    </div>
+  </div>
+</div>
+
+<nav class="primary">
+  <div class="wrap">
+    <div class="logo">SecondariesMatch</div>
+    <ul class="nav-links">
+      <li><a href="#marketplace">Marketplace</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#how-it-works">Sell a Stake</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#insights">Insights</a></li>
+      <li><a href="#">Sign In</a></li>
+      <li><a class="btn btn-primary" href="#">Request Access</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="bg" viewBox="0 0 1280 460" preserveAspectRatio="none">
+    <line x1="0" y1="80" x2="1280" y2="80" stroke="#FFFFFF" stroke-width="1"/>
+    <line x1="0" y1="180" x2="1280" y2="180" stroke="#FFFFFF" stroke-width="1"/>
+    <line x1="0" y1="280" x2="1280" y2="280" stroke="#FFFFFF" stroke-width="1"/>
+    <line x1="0" y1="380" x2="1280" y2="380" stroke="#FFFFFF" stroke-width="1"/>
+    <polyline points="0,320 120,260 260,300 400,180 540,220 680,120 820,160 960,60 1100,110 1280,40" fill="none" stroke="#0F5FDC" stroke-width="2"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">The Institutional Secondaries Exchange</div>
+    <h1>Where private market secondaries are priced, matched, and closed.</h1>
+    <p class="sub">Verified institutional buyers and sellers transact LP interests, GP-led continuation vehicles, and direct company stakes — with full audit trail, from indication of interest to close.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#marketplace">Browse the Marketplace →</a>
+      <a class="btn btn-outline-dark" href="#how-it-works">List a Stake</a>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><div class="num tabular">$18.4B</div><div class="label">Aggregate NAV listed</div></div>
+      <div class="stat"><div class="num tabular">312</div><div class="label">Active mandates</div></div>
+      <div class="stat"><div class="num tabular">1,140</div><div class="label">Verified institutional members</div></div>
+      <div class="stat"><div class="num tabular">9.2 days</div><div class="label">Median time to first bid</div></div>
+    </div>
+    <div class="stat-footnote">Illustrative figures — updates live once trading begins.</div>
+  </div>
+</header>
+
+<section id="marketplace">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Live Marketplace</div>
+        <h2>Current supply, priced.</h2>
+      </div>
+      <div class="illustrative-note">Sample data for demonstration — live listings coming soon.</div>
+    </div>
+
+    <div class="segmented" id="asset-tabs" style="margin:28px 0 20px;">
+      <button data-asset="fund" class="active">Fund / LP Interests</button>
+      <button data-asset="direct">Direct Company Stakes</button>
+      <button data-asset="real">Real Assets</button>
+    </div>
+
+    <div class="filter-bar">
+      <div class="field">
+        <label>Search</label>
+        <input id="f-search" placeholder="Fund, manager, or company" style="width:220px;" />
+      </div>
+      <div class="field">
+        <label>Sector</label>
+        <select id="f-sector" style="width:190px;"></select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="f-status" style="width:150px;">
+          <option value="All">All</option>
+          <option value="open">Open</option>
+          <option value="closing">Closing Soon</option>
+          <option value="under_offer">Under Offer</option>
+          <option value="closed">Closed</option>
+        </select>
+      </div>
+      <div class="field" id="f-vintage-wrap">
+        <label>Vintage</label>
+        <div class="range-field"><input id="f-vintage-min" placeholder="Min"/><span>–</span><input id="f-vintage-max" placeholder="Max"/></div>
+      </div>
+      <div class="field">
+        <label id="f-nav-label">NAV ($M)</label>
+        <div class="range-field wide"><input id="f-nav-min" placeholder="Min $M"/><span>–</span><input id="f-nav-max" placeholder="Max $M"/></div>
+      </div>
+      <div class="field">
+        <label>Sort by</label>
+        <div style="display:flex;gap:6px;">
+          <select id="f-sortby">
+            <option value="nav">NAV</option>
+            <option value="ask">Ask % of NAV</option>
+            <option value="vintage">Vintage</option>
+          </select>
+          <button id="f-sortdir" class="btn btn-outline" style="padding:8px 12px;">Desc ↓</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Density</label>
+        <div class="density-toggle">
+          <button data-density="comfortable" class="active">Comfortable</button>
+          <button data-density="compact">Compact</button>
+        </div>
+      </div>
+      <button class="clear-filters" id="f-clear">Clear filters</button>
+    </div>
+
+    <div class="table-wrap" id="table-wrap"></div>
+    <div class="table-caption" id="table-caption"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-eyebrow">Featured Opportunities</div>
+    <h2>Curated by our origination desk.</h2>
+    <div class="featured-grid" id="featured-grid"></div>
+  </div>
+</section>
+
+<section class="howitworks" id="how-it-works">
+  <div class="wrap">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 style="margin-bottom:28px;">One venue, two sides of the trade.</h2>
+    <div class="segmented light" id="hiw-tabs" style="margin-bottom:40px;">
+      <button data-hiw="sellers" class="active">For Sellers</button>
+      <button data-hiw="buyers">For Buyers</button>
+    </div>
+    <div class="track-grid" id="hiw-grid"></div>
+  </div>
+</section>
+
+<section id="security">
+  <div class="wrap">
+    <div class="section-eyebrow">Security, Compliance &amp; Data Integrity</div>
+    <h2 style="max-width:760px;">Built to survive counsel review before a single data room opens.</h2>
+    <div class="security-grid">
+      <div class="security-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0E17" stroke-width="1.5"><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <h4>Bank-grade encryption</h4>
+        <p>Data room documents encrypted at rest and in transit.</p>
+      </div>
+      <div class="security-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0E17" stroke-width="1.5"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <h4>Verified counterparties</h4>
+        <p>KYC/AML and accreditation checks on every member.</p>
+      </div>
+      <div class="security-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0E17" stroke-width="1.5"><path d="M3 12h4l2-7 5 14 2-7h5"/></svg>
+        <h4>Immutable audit trail</h4>
+        <p>Every bid, view, and NDA is timestamped and logged.</p>
+      </div>
+      <div class="security-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0E17" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 15l5-5 3 3 5-6"/></svg>
+        <h4>Watermarked data rooms</h4>
+        <p>Every diligence document is leak-traceable to the viewer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="insights" id="insights">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:36px;">
+      <div>
+        <div class="section-eyebrow">Insights</div>
+        <h2>Market commentary.</h2>
+      </div>
+      <div class="illustrative-note">Illustrative example content</div>
+    </div>
+    <div class="insight-grid" id="insight-grid"></div>
+  </div>
+</section>
+
+<section class="closing-cta">
+  <div class="wrap">
+    <h2>Bring your next secondary to the venue built for institutions.</h2>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#">Request Buyer Access</a>
+      <a class="btn btn-outline-dark" href="#">Talk to Our Origination Team</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div style="font-family:Georgia,serif;font-size:18px;color:#fff;margin-bottom:12px;">SecondariesMatch</div>
+        <div style="font-size:13px;line-height:20px;max-width:280px;">The institutional exchange for private market secondaries.</div>
+      </div>
+      <div>
+        <h5>Marketplace</h5>
+        <ul><li><a href="#marketplace">Fund Interests</a></li><li><a href="#marketplace">Direct Stakes</a></li><li><a href="#marketplace">Real Assets</a></li></ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul><li><a href="#how-it-works">How It Works</a></li><li><a href="#insights">Insights</a></li><li><a href="#security">Security</a></li></ul>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <ul><li><a href="#">Broker-Dealer Disclosures</a></li><li><a href="#">Risk Disclosures</a></li><li><a href="#">Privacy Policy</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <div>© 2026 SecondariesMatch. Securities-related services offered through a registered broker-dealer network member. Available only to eligible institutional counterparties in permitted jurisdictions.</div>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="drawer" id="drawer">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+    <span class="pill" id="drawer-tag"></span>
+    <button class="drawer-close" id="drawer-close">×</button>
+  </div>
+  <h3 id="drawer-name"></h3>
+  <div class="sub" id="drawer-sub"></div>
+  <div class="desc" id="drawer-desc"></div>
+  <div class="kv-grid" id="drawer-kv"></div>
+  <div class="doc-label">Data Room Checklist</div>
+  <div class="doc-text" id="drawer-docs"></div>
+  <button class="btn btn-primary" id="drawer-action" style="width:100%;padding:14px;"></button>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-head">
+    <div class="modal-step-label" id="modal-step-label">Step 1 of 3</div>
+    <button class="drawer-close" id="modal-close">×</button>
+  </div>
+  <div class="modal-title" id="modal-title"></div>
+
+  <div class="modal-body" id="modal-step-1">
+    <div>
+      <label id="modal-bid-label">Bid price (% of NAV)</label>
+      <input id="m-bid-value" inputmode="decimal" placeholder="e.g. 92" />
+    </div>
+    <div>
+      <label>Stake size</label>
+      <select id="m-size-type"><option value="full">Full stake</option><option value="partial">Partial stake</option></select>
+    </div>
+    <div>
+      <label>Financing contingency</label>
+      <select id="m-financing"><option value="no">No</option><option value="yes">Yes</option></select>
+    </div>
+    <div>
+      <label>Indicative close date</label>
+      <input id="m-close-date" placeholder="e.g. Q4 2026" />
+    </div>
+  </div>
+
+  <div class="modal-body" id="modal-step-2" style="display:none;">
+    <div style="font-size:14px;color:#333B4F;line-height:21px;">By submitting, you confirm an NDA is on file for this mandate (or one will be sent for e-signature), and you acknowledge this data room is watermarked and its access logged in the platform's immutable audit trail.</div>
+    <label class="toggle-row"><input type="checkbox" id="m-nda-ack" style="margin-top:3px;"/> I acknowledge the NDA, watermarking, and audit-trail terms.</label>
+  </div>
+
+  <div class="modal-body" id="modal-step-3" style="display:none;">
+    <div class="summary-card">
+      <div class="name" id="m-summary-name"></div>
+      <div class="grid">
+        <div id="m-summary-bid"></div>
+        <div id="m-summary-size"></div>
+        <div id="m-summary-financing"></div>
+        <div id="m-summary-close"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-body" id="modal-step-4" style="display:none;">
+    <div style="font-size:14px;color:#333B4F;line-height:21px;" id="m-confirm-text"></div>
+    <div class="progress-row">
+      <div class="progress-step"><div class="progress-dot" style="background:#0F5FDC;"></div><div class="progress-label" style="color:#0A0E17;font-weight:600;">Submitted</div></div>
+      <div class="progress-step"><div class="progress-dot" style="background:#DEE2E9;"></div><div class="progress-label" style="color:#5B6478;">Under Review</div></div>
+      <div class="progress-step"><div class="progress-dot" style="background:#DEE2E9;"></div><div class="progress-label" style="color:#5B6478;">Countered</div></div>
+      <div class="progress-step"><div class="progress-dot" style="background:#DEE2E9;"></div><div class="progress-label" style="color:#5B6478;">Accepted</div></div>
+    </div>
+  </div>
+
+  <div class="modal-foot" id="modal-foot">
+    <button class="btn btn-outline" id="m-back" style="display:none;">Back</button>
+    <button class="btn btn-primary" id="m-primary" style="margin-left:auto;"></button>
+  </div>
+  <button class="btn" id="m-done" style="display:none;width:100%;background:#0A0E17;color:#fff;padding:12px;">Done</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const state = {
+    assetClass:'fund', search:'', sector:'All', status:'All',
+    vintageMin:'', vintageMax:'', navMin:'', navMax:'',
+    sortBy:'nav', sortDir:'desc', density:'comfortable',
+    howItWorks:'sellers', drawerId:null,
+    modalOpen:false, modalStep:1, modalKind:null, modalId:null,
+    bidValue:'', sizeType:'full', financing:'no', closeDate:'', ndaAck:false, refNumber:null
+  };
+
+  const fundData = [
+    {id:1,name:'Meridian Capital Partners VII, L.P.',manager:'Meridian Capital',tag:'Buyout',vintage:2017,sector:'Healthcare & Life Sciences',geography:'North America',nav:84.2,unfunded:12.6,ask:93,bidLow:88,bidHigh:92,status:'open',description:'Diversified buyout fund concentrated in healthcare services and life sciences tooling, seeking a full LP interest transfer.',gpTrackRecord:'3.1x gross MOIC across prior three funds',terms:'Standard ROFR; GP consent required',timeline:'6–8 weeks to close',documents:'LPA, capital account statements, most recent quarterly report, side letter summary'},
+    {id:2,name:'Brightline Venture Fund IV',manager:'Brightline Ventures',tag:'Venture',vintage:2019,sector:'Enterprise Software',geography:'North America',nav:46.1,unfunded:8.4,ask:89,bidLow:84,bidHigh:88,status:'open',description:'Early-growth venture fund with concentrated enterprise SaaS exposure across 14 portfolio companies.',gpTrackRecord:'2.4x unrealized TVPI',terms:'No ROFR; transfer notice only',timeline:'4–6 weeks to close',documents:'LPA, cap table summary, latest NAV letter'},
+    {id:3,name:'Cascade Credit Opportunities III',manager:'Cascade Credit',tag:'Credit',vintage:2016,sector:'Diversified',geography:'Europe',nav:112.7,unfunded:4.2,ask:96,bidLow:93,bidHigh:96,status:'closing',description:'Senior direct-lending vehicle in late harvest period with limited remaining unfunded commitment.',gpTrackRecord:'8.9% net IRR to date',terms:'ROFR waived by GP',timeline:'3–5 weeks to close',documents:'LPA, portfolio company schedule, distribution history'},
+    {id:4,name:'Harborview Real Estate Fund V',manager:'Harborview Partners',tag:'Real Estate',vintage:2015,sector:'Industrial & Logistics',geography:'North America',nav:58.9,unfunded:2.1,ask:91,bidLow:87,bidHigh:90,status:'under_offer',description:'Core-plus industrial and logistics portfolio; currently in exclusivity with a counterparty.',gpTrackRecord:'1.9x realized MOIC on exited assets',terms:'GP consent required',timeline:'Pending exclusivity outcome',documents:'LPA, appraisal summaries, rent rolls'},
+    {id:5,name:'Northgate Infrastructure Partners II',manager:'Northgate Capital',tag:'Infrastructure',vintage:2018,sector:'Energy Transition',geography:'Europe',nav:203.4,unfunded:31.8,ask:94,bidLow:90,bidHigh:93,status:'open',description:'Core infrastructure fund concentrated in renewable generation and grid assets across Western Europe.',gpTrackRecord:'11% net IRR since inception',terms:'ROFR applies; 30-day window',timeline:'8–10 weeks to close',documents:'LPA, asset-level operating reports, ESG disclosures'},
+    {id:6,name:'Silverton Growth Equity VI',manager:'Silverton Partners',tag:'Buyout',vintage:2020,sector:'Consumer & Retail',geography:'Asia-Pacific',nav:71.3,unfunded:18.9,ask:87,bidLow:82,bidHigh:86,status:'open',description:'Growth buyout fund targeting branded consumer businesses across Southeast Asia.',gpTrackRecord:'2.1x unrealized MOIC',terms:'No ROFR',timeline:'6 weeks to close',documents:'LPA, quarterly reports, co-invest summary'},
+    {id:7,name:'Ardmore Life Sciences Fund III',manager:'Ardmore Capital',tag:'Venture',vintage:2014,sector:'Healthcare & Life Sciences',geography:'North America',nav:39.6,unfunded:1.4,ask:78,bidLow:72,bidHigh:77,status:'closed',description:'Late-stage biotech venture fund; listing withdrawn pending GP restructuring.',gpTrackRecord:'0.8x TVPI, below-median vintage',terms:'Withdrawn — not currently transferable',timeline:'N/A',documents:'Not currently available'},
+    {id:8,name:'Blackfriar Credit Partners IV',manager:'Blackfriar Capital',tag:'Credit',vintage:2021,sector:'Diversified',geography:'North America',nav:95.0,unfunded:22.3,ask:92,bidLow:89,bidHigh:92,status:'open',description:'Direct lending fund in early deployment with strong diversification across middle-market borrowers.',gpTrackRecord:'7.4% net IRR to date',terms:'ROFR applies',timeline:'6–8 weeks to close',documents:'LPA, loan schedule, quarterly valuation report'}
+  ];
+  const directData = [
+    {id:1,name:'Vantage Robotics Inc.',round:'Series D Preferred',sector:'Industrial Tech',lastRoundVal:1200,ask:79,unfunded:18.4,status:'open',description:'Warehouse automation robotics company; seller is an early venture investor seeking partial liquidity.',gpTrackRecord:'N/A — direct company stake',terms:'ROFR held by company; 30-day notice',timeline:'6–8 weeks to close',documents:'Cap table, ROFR waiver, latest board deck'},
+    {id:2,name:'Nimbus Health Systems',round:'Series C Preferred',sector:'Digital Health',lastRoundVal:640,ask:81,unfunded:6.2,status:'open',description:'Value-based care platform; stake held by a departing seed investor.',gpTrackRecord:'N/A — direct company stake',terms:'Company consent required',timeline:'4–6 weeks to close',documents:'Cap table, SPA template, financial summary'},
+    {id:3,name:'Solara Grid Technologies',round:'Series E Preferred',sector:'Clean Energy',lastRoundVal:2400,ask:88,unfunded:34.0,status:'closing',description:'Grid-scale battery storage developer nearing a strategic round; strip sale from an existing fund investor.',gpTrackRecord:'N/A — direct company stake',terms:'ROFR waived',timeline:'3–4 weeks to close',documents:'Cap table, latest 409A, board consent'},
+    {id:4,name:'Ferrovia Logistics',round:'Series B Preferred',sector:'Supply Chain',lastRoundVal:310,ask:85,unfunded:4.1,status:'open',description:'Cross-border freight platform; seller is a fund winding down its final vintage.',gpTrackRecord:'N/A — direct company stake',terms:'No ROFR',timeline:'4–5 weeks to close',documents:'Cap table, SPA template'},
+    {id:5,name:'Cobalt Data Systems',round:'Series F Preferred',sector:'Enterprise Software',lastRoundVal:3800,ask:87,unfunded:52.0,status:'under_offer',description:'Late-stage data infrastructure company; currently in exclusivity with a strategic buyer.',gpTrackRecord:'N/A — direct company stake',terms:'Company consent required',timeline:'Pending exclusivity outcome',documents:'Cap table, board consent draft'},
+    {id:6,name:'Meridian Biosciences',round:'Series C Preferred',sector:'Biotech',lastRoundVal:890,ask:72,unfunded:9.7,status:'closed',description:'Clinical-stage biotech; listing withdrawn pending trial readout.',gpTrackRecord:'N/A — direct company stake',terms:'Withdrawn',timeline:'N/A',documents:'Not currently available'},
+    {id:7,name:'Argent Fintech Holdings',round:'Series D Preferred',sector:'Fintech',lastRoundVal:1600,ask:84,unfunded:21.5,status:'open',description:'Embedded payments infrastructure provider; seller is a fund-of-one seeking partial liquidity.',gpTrackRecord:'N/A — direct company stake',terms:'ROFR held by company',timeline:'5–7 weeks to close',documents:'Cap table, ROFR waiver, latest financials'}
+  ];
+  const realData = [
+    {id:1,name:'Coastal Logistics Portfolio I',type:'Industrial Real Estate',vintage:2016,geography:'North America',nav:142.3,ask:90,unfunded:0,status:'open',description:'Last-mile industrial and logistics portfolio across four major North American metros.',gpTrackRecord:'6.2% average cap rate',terms:'GP consent required',timeline:'8–10 weeks to close',documents:'Rent rolls, appraisals, LPA'},
+    {id:2,name:'Helios Solar Infrastructure Fund',type:'Renewable Infrastructure',vintage:2019,geography:'Europe',nav:267.8,ask:95,unfunded:0,status:'open',description:'Utility-scale solar generation assets across Iberia and Southern France.',gpTrackRecord:'9.8% net IRR since inception',terms:'ROFR applies',timeline:'8 weeks to close',documents:'Asset operating reports, PPAs summary, LPA'},
+    {id:3,name:'Union Station Office Portfolio',type:'Office Real Estate',vintage:2013,geography:'North America',nav:61.4,ask:74,unfunded:0,status:'closing',description:'CBD office portfolio in secondary markets; pricing reflects sector-wide office discount.',gpTrackRecord:'Below-median vintage performance',terms:'No ROFR',timeline:'4–6 weeks to close',documents:'Appraisals, rent rolls'},
+    {id:4,name:'Trellis Data Center Fund II',type:'Digital Infrastructure',vintage:2020,geography:'North America',nav:188.0,ask:97,unfunded:0,status:'open',description:'Hyperscale-leased data center portfolio with long-duration contracted revenue.',gpTrackRecord:'12.1% net IRR since inception',terms:'ROFR applies',timeline:'8–10 weeks to close',documents:'Lease abstracts, operating reports, LPA'},
+    {id:5,name:'Meridian Toll Roads Partnership',type:'Transportation Infrastructure',vintage:2012,geography:'Europe',nav:340.6,ask:88,unfunded:0,status:'under_offer',description:'Mature toll-road concession portfolio; currently in exclusivity.',gpTrackRecord:'7.9% net IRR since inception',terms:'GP consent required',timeline:'Pending exclusivity outcome',documents:'Concession agreements summary, LPA'},
+    {id:6,name:'Baywood Multifamily Fund IV',type:'Residential Real Estate',vintage:2017,geography:'North America',nav:97.5,ask:92,unfunded:0,status:'open',description:'Class-B multifamily portfolio across Sunbelt growth markets.',gpTrackRecord:'5.8% average cap rate',terms:'No ROFR',timeline:'5–7 weeks to close',documents:'Rent rolls, appraisals, LPA'}
+  ];
+  const insights = [
+    {date:'July 2026',title:'Q2 2026 Secondary Pricing Survey',summary:'Buyout funds averaging 91% of NAV, up 3 points quarter-over-quarter as bid-ask spreads narrow across the market.'},
+    {date:'June 2026',title:'GP-Led Continuation Vehicles: 2026 Outlook',summary:'Continuation vehicle volume on pace to exceed prior-year totals as sponsors extend holds on top-performing assets.'},
+    {date:'May 2026',title:'Direct Secondaries in Late-Stage Tech',summary:'Discounts on late-stage venture and growth equity stakes have compressed as primary markets reopen.'}
+  ];
+  const sellerSteps = [
+    {n:1,title:'Confidential intake & valuation benchmark',desc:'Share mandate details privately; receive an indicative pricing benchmark.'},
+    {n:2,title:'Listing goes to vetted buyer pool',desc:'Distributed under NDA to accredited, KYC-verified institutional buyers only.'},
+    {n:3,title:'Bids collected & compared',desc:'Review competing bids side-by-side with full transparency into terms.'},
+    {n:4,title:'Negotiate, execute, close',desc:'Transfer documentation and closing support through final settlement.'}
+  ];
+  const buyerSteps = [
+    {n:1,title:'Get verified',desc:'Complete accreditation and KYC to unlock full marketplace access.'},
+    {n:2,title:'Filter live supply',desc:'Screen active mandates by sector, vintage, geography, and size.'},
+    {n:3,title:'Request data room access',desc:'Review diligence materials under watermark and audit-trail controls.'},
+    {n:4,title:'Submit bid, negotiate, close',desc:'Execute your order ticket with counsel support through to close.'}
+  ];
+
+  const GRID = {
+    fund: 'minmax(280px,2fr) 110px 70px 160px 120px 100px 110px 90px 120px 140px 150px',
+    direct: 'minmax(280px,2fr) 150px 150px 130px 130px 130px 140px 150px',
+    real: 'minmax(280px,2fr) 170px 80px 130px 110px 100px 140px 150px'
+  };
+
+  function statusMeta(code){
+    const m = {
+      open: {label:'Open for Bids', color:'#0E7A4E'},
+      closing: {label:'Closing Soon', color:'#8A6D1D'},
+      under_offer: {label:'Under Offer', color:'#5B6478'},
+      closed: {label:'Bidding Closed', color:'#B3261E'}
+    };
+    return m[code] || m.open;
+  }
+
+  function getRaw(){
+    return state.assetClass === 'fund' ? fundData : state.assetClass === 'direct' ? directData : realData;
+  }
+  function getDataset(kind){
+    return kind === 'fund' ? fundData : kind === 'direct' ? directData : realData;
+  }
+
+  function matches(r){
+    const s = state, ac = s.assetClass;
+    const name = (r.name || '').toLowerCase();
+    if (s.search && !name.includes(s.search.toLowerCase())) return false;
+    if (s.sector !== 'All' && r.sector !== s.sector) return false;
+    if (s.status !== 'All' && r.status !== s.status) return false;
+    if (ac !== 'direct') {
+      if (s.vintageMin !== '' && r.vintage < parseInt(s.vintageMin)) return false;
+      if (s.vintageMax !== '' && r.vintage > parseInt(s.vintageMax)) return false;
+    }
+    const navVal = ac === 'direct' ? r.lastRoundVal : r.nav;
+    if (s.navMin !== '' && navVal < parseFloat(s.navMin)) return false;
+    if (s.navMax !== '' && navVal > parseFloat(s.navMax)) return false;
+    return true;
+  }
+
+  function mapRow(r, kind){
+    const meta = statusMeta(r.status);
+    const disabled = r.status === 'closed';
+    const actionLabel = disabled ? 'Bidding Closed' : (kind === 'direct' ? 'Submit an Offer' : 'Submit a Bid');
+    const base = {
+      id:r.id, name:r.name, statusLabel:meta.label, statusColor:meta.color,
+      rowOpacity: disabled ? 0.55 : 1, actionLabel, actionDisabled:disabled,
+      description:r.description, gpTrackRecord:r.gpTrackRecord, terms:r.terms, timeline:r.timeline, documents:r.documents
+    };
+    if (kind === 'fund') {
+      return Object.assign(base, {
+        manager:r.manager, tag:r.tag, sub:r.manager, vintage:r.vintage, sector:r.sector, geography:r.geography,
+        navDisplay:'$'+r.nav.toFixed(1)+'M', unfundedDisplay:'$'+r.unfunded.toFixed(1)+'M',
+        askDisplay:r.ask+'%', bidDisplay:r.bidLow+'–'+r.bidHigh+'%'
+      });
+    }
+    if (kind === 'direct') {
+      return Object.assign(base, {
+        round:r.round, sector:r.sector, sub:r.round, tag:r.round,
+        navDisplay:'$'+r.lastRoundVal.toFixed(0)+'M', askDisplay:r.ask+'% implied',
+        unfundedDisplay:'$'+r.unfunded.toFixed(1)+'M'
+      });
+    }
+    return Object.assign(base, {
+      type:r.type, tag:r.type, sub:r.type, sector:r.type, vintage:r.vintage, geography:r.geography,
+      navDisplay:'$'+r.nav.toFixed(1)+'M', askDisplay:r.ask+'%'
+    });
+  }
+
+  function sortRows(rows){
+    const key = state.sortBy === 'nav' ? 'nav' : state.sortBy === 'ask' ? 'ask' : 'vintage';
+    return rows.slice().sort((a,b)=>{
+      const av = a[key] === undefined ? -Infinity : a[key];
+      const bv = b[key] === undefined ? -Infinity : b[key];
+      return state.sortDir === 'asc' ? av-bv : bv-av;
+    });
+  }
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // ---------- rendering ----------
+  function renderAll(){
+    renderTabs();
+    renderFilters();
+    renderTable();
+    renderFeatured();
+    renderHowItWorks();
+    renderDrawer();
+    renderModal();
+  }
+
+  function renderTabs(){
+    document.querySelectorAll('#asset-tabs button').forEach(b=>{
+      b.classList.toggle('active', b.dataset.asset === state.assetClass);
+    });
+    document.querySelectorAll('.density-toggle button').forEach(b=>{
+      b.classList.toggle('active', b.dataset.density === state.density);
+    });
+  }
+
+  function renderFilters(){
+    const raw = getRaw();
+    const sectorSet = Array.from(new Set(raw.map(r=>r.sector))).sort();
+    const sectorSel = document.getElementById('f-sector');
+    const current = state.sector;
+    sectorSel.innerHTML = ['All'].concat(sectorSet).map(o=>`<option value="${esc(o)}"${o===current?' selected':''}>${esc(o)}</option>`).join('');
+    document.getElementById('f-vintage-wrap').style.display = state.assetClass === 'direct' ? 'none' : 'flex';
+    document.getElementById('f-nav-label').textContent = state.assetClass === 'direct' ? 'Last Round Val. ($M)' : 'NAV ($M)';
+    document.getElementById('f-sortdir').textContent = state.sortDir === 'asc' ? 'Asc ↑' : 'Desc ↓';
+  }
+
+  function renderTable(){
+    const raw = getRaw();
+    const filtered = raw.filter(matches);
+    const sorted = sortRows(filtered);
+    const kind = state.assetClass;
+    const rows = sorted.map(r=>mapRow(r,kind));
+    const wrap = document.getElementById('table-wrap');
+    const padding = state.density === 'compact' ? '8px 16px' : '14px 16px';
+
+    let head = '';
+    if (kind === 'fund') {
+      head = `<div>Fund / Mandate</div><div>Asset Class</div><div>Vintage</div><div>Sector Focus</div><div>Geography</div><div class="num">NAV</div><div class="num">Unfunded</div><div class="num">Ask % NAV</div><div class="num">Indic. Bid</div><div>Status</div><div></div>`;
+    } else if (kind === 'direct') {
+      head = `<div>Company</div><div>Round / Security</div><div>Sector</div><div class="num">Last Round Val.</div><div class="num">Offer Price</div><div class="num">Stake Size</div><div>Status</div><div></div>`;
+    } else {
+      head = `<div>Asset / Portfolio</div><div>Type</div><div>Vintage</div><div>Geography</div><div class="num">NAV</div><div class="num">Ask % NAV</div><div>Status</div><div></div>`;
+    }
+
+    let bodyHtml = '';
+    if (rows.length === 0) {
+      bodyHtml = `<div class="empty-state"><p>No mandates match these filters.</p><button class="btn btn-primary" id="empty-clear">Clear filters</button></div>`;
+    } else {
+      bodyHtml = rows.map(row=>{
+        let cells = '';
+        if (kind === 'fund') {
+          cells = `
+            <div><div class="row-primary">${esc(row.name)}</div><div class="row-secondary">${esc(row.manager)} · <span style="font-style:italic;">Illustrative</span></div></div>
+            <div><span class="pill">${esc(row.tag)}</span></div>
+            <div class="tabular">${row.vintage}</div>
+            <div style="font-size:13px;">${esc(row.sector)}</div>
+            <div style="font-size:13px;">${esc(row.geography)}</div>
+            <div class="num tabular">${row.navDisplay}</div>
+            <div class="num tabular" style="color:var(--slate-500);">${row.unfundedDisplay}</div>
+            <div class="num tabular ask-price">${row.askDisplay}</div>
+            <div class="num tabular bid-range">${row.bidDisplay}</div>
+            <div class="status-cell"><span class="dot" style="background:${row.statusColor};"></span>${row.statusLabel}</div>
+            <div><button class="action-btn" data-action-id="${row.id}" data-action-kind="${kind}" ${row.actionDisabled?'disabled':''} style="background:${row.actionDisabled?'#EEF0F4':'#0F5FDC'};color:${row.actionDisabled?'#9AA4BC':'#fff'};cursor:${row.actionDisabled?'default':'pointer'};">${row.actionLabel}</button></div>`;
+        } else if (kind === 'direct') {
+          cells = `
+            <div><div class="row-primary">${esc(row.name)}</div><div class="row-secondary" style="font-style:italic;">Illustrative</div></div>
+            <div style="font-size:13px;">${esc(row.round)}</div>
+            <div style="font-size:13px;">${esc(row.sector)}</div>
+            <div class="num tabular" style="color:var(--slate-500);">${row.navDisplay}</div>
+            <div class="num tabular ask-price">${row.askDisplay}</div>
+            <div class="num tabular">${row.unfundedDisplay}</div>
+            <div class="status-cell"><span class="dot" style="background:${row.statusColor};"></span>${row.statusLabel}</div>
+            <div><button class="action-btn" data-action-id="${row.id}" data-action-kind="${kind}" ${row.actionDisabled?'disabled':''} style="background:${row.actionDisabled?'#EEF0F4':'#0F5FDC'};color:${row.actionDisabled?'#9AA4BC':'#fff'};cursor:${row.actionDisabled?'default':'pointer'};">${row.actionLabel}</button></div>`;
+        } else {
+          cells = `
+            <div><div class="row-primary">${esc(row.name)}</div><div class="row-secondary" style="font-style:italic;">Illustrative</div></div>
+            <div style="font-size:13px;">${esc(row.type)}</div>
+            <div class="tabular">${row.vintage}</div>
+            <div style="font-size:13px;">${esc(row.geography)}</div>
+            <div class="num tabular">${row.navDisplay}</div>
+            <div class="num tabular ask-price">${row.askDisplay}</div>
+            <div class="status-cell"><span class="dot" style="background:${row.statusColor};"></span>${row.statusLabel}</div>
+            <div><button class="action-btn" data-action-id="${row.id}" data-action-kind="${kind}" ${row.actionDisabled?'disabled':''} style="background:${row.actionDisabled?'#EEF0F4':'#0F5FDC'};color:${row.actionDisabled?'#9AA4BC':'#fff'};cursor:${row.actionDisabled?'default':'pointer'};">${row.actionLabel}</button></div>`;
+        }
+        return `<div class="t-row" data-row-id="${row.id}" style="grid-template-columns:${GRID[kind]};padding:${padding};opacity:${row.rowOpacity};">${cells}</div>`;
+      }).join('');
+    }
+
+    wrap.innerHTML = `<div class="t-head" style="grid-template-columns:${GRID[kind]};">${head}</div>${bodyHtml}`;
+    document.getElementById('table-caption').textContent = `Showing ${rows.length} illustrative listings · Sample data for demonstration — live listings coming soon.`;
+
+    wrap.querySelectorAll('.t-row').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        state.drawerId = parseInt(el.dataset.rowId, 10);
+        renderDrawer();
+      });
+    });
+    wrap.querySelectorAll('.action-btn').forEach(el=>{
+      el.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        if (el.disabled) return;
+        openModal(el.dataset.actionKind, parseInt(el.dataset.actionId,10));
+      });
+    });
+    const emptyClear = document.getElementById('empty-clear');
+    if (emptyClear) emptyClear.addEventListener('click', clearFilters);
+  }
+
+  function clearFilters(){
+    state.search=''; state.sector='All'; state.status='All';
+    state.vintageMin=''; state.vintageMax=''; state.navMin=''; state.navMax='';
+    document.getElementById('f-search').value='';
+    document.getElementById('f-status').value='All';
+    document.getElementById('f-vintage-min').value='';
+    document.getElementById('f-vintage-max').value='';
+    document.getElementById('f-nav-min').value='';
+    document.getElementById('f-nav-max').value='';
+    renderFilters();
+    renderTable();
+  }
+
+  function renderFeatured(){
+    const featured = [
+      Object.assign(mapRow(fundData[0],'fund'), {thesis:'Diversified healthcare-focused buyout fund entering final harvest years.', kind:'fund', vintageDisplay: fundData[0].vintage}),
+      Object.assign(mapRow(directData[2],'direct'), {thesis:'Grid-scale storage developer ahead of a strategic financing round.', kind:'direct', vintageDisplay:'—'}),
+      Object.assign(mapRow(realData[1],'real'), {thesis:'Contracted renewable generation portfolio across Iberia and Southern France.', kind:'real', vintageDisplay: realData[1].vintage})
+    ];
+    const grid = document.getElementById('featured-grid');
+    grid.innerHTML = featured.map(f=>`
+      <div class="feature-card">
+        <div class="top-row"><span class="pill">${esc(f.tag)}</span><span class="featured-tag">Featured</span></div>
+        <h3>${esc(f.name)}</h3>
+        <div class="thesis">${esc(f.thesis)}</div>
+        <div class="metric-grid">
+          <div><div class="m-label">NAV</div><div class="m-val tabular">${f.navDisplay}</div></div>
+          <div><div class="m-label">Ask % of NAV</div><div class="m-val tabular">${f.askDisplay}</div></div>
+          <div><div class="m-label">Vintage</div><div class="m-val tabular">${f.vintageDisplay}</div></div>
+          <div><div class="m-label">Sector</div><div class="m-val">${esc(f.sector)}</div></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-outline" data-view-kind="${f.kind}" data-view-id="${f.id}">View Opportunity</button>
+          <button class="btn btn-primary" data-bid-kind="${f.kind}" data-bid-id="${f.id}">${f.actionLabel}</button>
+        </div>
+      </div>
+    `).join('');
+    grid.querySelectorAll('[data-view-kind]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        state.assetClass = el.dataset.viewKind;
+        state.drawerId = parseInt(el.dataset.viewId,10);
+        renderTabs(); renderFilters(); renderTable(); renderDrawer();
+        document.getElementById('marketplace').scrollIntoView({behavior:'smooth'});
+      });
+    });
+    grid.querySelectorAll('[data-bid-kind]').forEach(el=>{
+      el.addEventListener('click', ()=> openModal(el.dataset.bidKind, parseInt(el.dataset.bidId,10)));
+    });
+  }
+
+  function renderHowItWorks(){
+    document.querySelectorAll('#hiw-tabs button').forEach(b=>{
+      b.classList.toggle('active', b.dataset.hiw === state.howItWorks);
+    });
+    const steps = state.howItWorks === 'sellers' ? sellerSteps : buyerSteps;
+    document.getElementById('hiw-grid').innerHTML = steps.map(s=>`
+      <div class="track-step">
+        <div class="idx">${s.n}</div>
+        <h4>${esc(s.title)}</h4>
+        <p>${esc(s.desc)}</p>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('insight-grid').innerHTML = insights.map(note=>`
+    <div class="insight-card">
+      <div class="date">${esc(note.date)}</div>
+      <h4>${esc(note.title)}</h4>
+      <p>${esc(note.summary)}</p>
+    </div>
+  `).join('');
+
+  // ---------- drawer ----------
+  function renderDrawer(){
+    const overlay = document.getElementById('overlay');
+    const drawer = document.getElementById('drawer');
+    if (state.drawerId == null) {
+      drawer.classList.remove('active');
+      if (!state.modalOpen) overlay.classList.remove('active');
+      return;
+    }
+    const raw = getRaw().find(r=>r.id === state.drawerId);
+    if (!raw) { state.drawerId = null; drawer.classList.remove('active'); return; }
+    const row = mapRow(raw, state.assetClass);
+    document.getElementById('drawer-tag').textContent = row.tag;
+    document.getElementById('drawer-name').textContent = row.name;
+    document.getElementById('drawer-sub').textContent = 'Illustrative listing · ' + (row.sub || '');
+    document.getElementById('drawer-desc').textContent = row.description;
+    document.getElementById('drawer-kv').innerHTML = `
+      <div><div class="k">NAV</div><div class="v tabular">${row.navDisplay}</div></div>
+      <div><div class="k">Ask % of NAV</div><div class="v tabular">${row.askDisplay}</div></div>
+      <div><div class="k">GP Track Record</div><div class="v">${esc(row.gpTrackRecord)}</div></div>
+      <div><div class="k">Key Terms</div><div class="v">${esc(row.terms)}</div></div>
+      <div><div class="k">Expected Timeline</div><div class="v">${esc(row.timeline)}</div></div>
+      <div><div class="k">Status</div><div class="v" style="display:flex;align-items:center;gap:6px;font-weight:600;"><span class="dot" style="background:${row.statusColor};"></span>${row.statusLabel}</div></div>
+    `;
+    document.getElementById('drawer-docs').textContent = row.documents;
+    const actionBtn = document.getElementById('drawer-action');
+    actionBtn.textContent = row.actionLabel;
+    actionBtn.disabled = row.actionDisabled;
+    actionBtn.style.background = row.actionDisabled ? '#EEF0F4' : '#0F5FDC';
+    actionBtn.style.color = row.actionDisabled ? '#9AA4BC' : '#fff';
+    actionBtn.onclick = () => { if (!row.actionDisabled) openModal(state.assetClass, row.id); };
+    overlay.classList.add('active');
+    drawer.classList.add('active');
+  }
+  document.getElementById('drawer-close').addEventListener('click', ()=>{ state.drawerId = null; renderDrawer(); });
+  document.getElementById('overlay').addEventListener('click', ()=>{
+    state.drawerId = null; state.modalOpen = false;
+    renderDrawer(); renderModal();
+  });
+
+  // ---------- modal ----------
+  function openModal(kind, id){
+    state.modalOpen = true; state.modalStep = 1; state.modalKind = kind; state.modalId = id;
+    state.bidValue=''; state.sizeType='full'; state.financing='no'; state.closeDate=''; state.ndaAck=false; state.refNumber=null;
+    document.getElementById('m-bid-value').value='';
+    document.getElementById('m-size-type').value='full';
+    document.getElementById('m-financing').value='no';
+    document.getElementById('m-close-date').value='';
+    document.getElementById('m-nda-ack').checked=false;
+    renderModal();
+  }
+  function closeModal(){ state.modalOpen = false; renderModal(); renderDrawer(); }
+
+  function renderModal(){
+    const overlay = document.getElementById('overlay');
+    const modal = document.getElementById('modal');
+    if (!state.modalOpen) { modal.classList.remove('active'); if (state.drawerId==null) overlay.classList.remove('active'); return; }
+    overlay.classList.add('active');
+    modal.classList.add('active');
+
+    const modalRaw = state.modalId != null && state.modalKind ? getDataset(state.modalKind).find(r=>r.id===state.modalId) : null;
+    const bidValueLabel = state.modalKind === 'direct' ? 'Offer price ($M, implied valuation)' : 'Bid price (% of NAV)';
+    document.getElementById('modal-bid-label').textContent = bidValueLabel;
+
+    ['modal-step-1','modal-step-2','modal-step-3','modal-step-4'].forEach((id,idx)=>{
+      document.getElementById(id).style.display = (state.modalStep === idx+1) ? 'flex' : 'none';
+    });
+    document.getElementById('modal-step-label').textContent = 'Step ' + Math.min(state.modalStep,3) + ' of 3';
+    document.getElementById('modal-title').textContent = modalRaw
+      ? (state.modalStep === 4 ? 'Confirmation' : ((state.modalKind === 'direct' ? 'Submit an Offer — ' : 'Submit a Bid — ') + modalRaw.name))
+      : '';
+
+    if (state.modalStep === 3 && modalRaw) {
+      document.getElementById('m-summary-name').textContent = modalRaw.name;
+      document.getElementById('m-summary-bid').innerHTML = bidValueLabel + ': <b>' + esc(state.bidValue) + '</b>';
+      document.getElementById('m-summary-size').innerHTML = 'Size: <b>' + (state.sizeType==='full'?'Full stake':'Partial stake') + '</b>';
+      document.getElementById('m-summary-financing').innerHTML = 'Financing contingency: <b>' + (state.financing==='yes'?'Yes':'No') + '</b>';
+      document.getElementById('m-summary-close').innerHTML = 'Close date: <b>' + esc(state.closeDate) + '</b>';
+    }
+    if (state.modalStep === 4 && modalRaw) {
+      document.getElementById('m-confirm-text').textContent =
+        'Bid submitted to ' + (modalRaw.manager || modalRaw.name) + ' · Reference #' + state.refNumber + ' · You\'ll be notified when the seller responds.';
+    }
+
+    const canStep1 = state.bidValue !== '' && state.closeDate !== '';
+    const canStep2 = state.ndaAck === true;
+    const primaryBtn = document.getElementById('m-primary');
+    const foot = document.getElementById('modal-foot');
+    const doneBtn = document.getElementById('m-done');
+    const backBtn = document.getElementById('m-back');
+
+    if (state.modalStep === 4) {
+      foot.style.display = 'none';
+      doneBtn.style.display = 'block';
+    } else {
+      foot.style.display = 'flex';
+      doneBtn.style.display = 'none';
+      backBtn.style.display = (state.modalStep > 1) ? 'inline-flex' : 'none';
+      let label = 'Continue', disabled = false;
+      if (state.modalStep === 1) disabled = !canStep1;
+      if (state.modalStep === 2) disabled = !canStep2;
+      if (state.modalStep === 3) label = 'Submit Bid';
+      primaryBtn.textContent = label;
+      primaryBtn.disabled = disabled;
+      primaryBtn.style.background = disabled ? '#A9C3F2' : '#0F5FDC';
+      primaryBtn.style.cursor = disabled ? 'default' : 'pointer';
+    }
+  }
+
+  document.getElementById('m-bid-value').addEventListener('input', e=>{ state.bidValue = e.target.value; renderModal(); });
+  document.getElementById('m-size-type').addEventListener('change', e=>{ state.sizeType = e.target.value; });
+  document.getElementById('m-financing').addEventListener('change', e=>{ state.financing = e.target.value; });
+  document.getElementById('m-close-date').addEventListener('input', e=>{ state.closeDate = e.target.value; renderModal(); });
+  document.getElementById('m-nda-ack').addEventListener('change', e=>{ state.ndaAck = e.target.checked; renderModal(); });
+  document.getElementById('m-back').addEventListener('click', ()=>{ state.modalStep -= 1; renderModal(); });
+  document.getElementById('m-primary').addEventListener('click', ()=>{
+    if (state.modalStep === 3) {
+      state.refNumber = 'SM-' + (10000 + Math.floor(Math.random()*89999));
+      state.modalStep = 4;
+    } else {
+      state.modalStep += 1;
+    }
+    renderModal();
+  });
+  document.getElementById('m-done').addEventListener('click', closeModal);
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+
+  // ---------- top-level controls ----------
+  document.querySelectorAll('#asset-tabs button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.assetClass = btn.dataset.asset;
+      state.sector = 'All';
+      state.drawerId = null;
+      renderTabs(); renderFilters(); renderTable(); renderDrawer();
+    });
+  });
+  document.querySelectorAll('.density-toggle button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.density = btn.dataset.density;
+      renderTabs(); renderTable();
+    });
+  });
+  document.querySelectorAll('#hiw-tabs button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.howItWorks = btn.dataset.hiw;
+      renderHowItWorks();
+    });
+  });
+  document.getElementById('f-search').addEventListener('input', e=>{ state.search = e.target.value; renderTable(); });
+  document.getElementById('f-sector').addEventListener('change', e=>{ state.sector = e.target.value; renderTable(); });
+  document.getElementById('f-status').addEventListener('change', e=>{ state.status = e.target.value; renderTable(); });
+  document.getElementById('f-vintage-min').addEventListener('input', e=>{ state.vintageMin = e.target.value; renderTable(); });
+  document.getElementById('f-vintage-max').addEventListener('input', e=>{ state.vintageMax = e.target.value; renderTable(); });
+  document.getElementById('f-nav-min').addEventListener('input', e=>{ state.navMin = e.target.value; renderTable(); });
+  document.getElementById('f-nav-max').addEventListener('input', e=>{ state.navMax = e.target.value; renderTable(); });
+  document.getElementById('f-sortby').addEventListener('change', e=>{ state.sortBy = e.target.value; renderTable(); });
+  document.getElementById('f-sortdir').addEventListener('click', ()=>{
+    state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+    renderFilters(); renderTable();
+  });
+  document.getElementById('f-clear').addEventListener('click', clearFilters);
+
+  renderAll();
+})();
+</script>
+
+</body>
+</html>
