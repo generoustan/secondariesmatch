@@ -3,10 +3,87 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SecondariesMatch — The Institutional Secondaries Exchange</title>
-<meta name="description" content="The institutional exchange for private market secondaries — LP interests, GP-led continuation vehicles, and direct company stakes, priced and matched in one auditable venue." />
+<title>SecondariesMatch — Intermediating Secondaries Transactions for Institutions</title>
+<meta name="description" content="SecondariesMatch intermediates secondaries transactions between institutional buyers and sellers — LP interests, GP-led continuation vehicles, and direct company stakes, priced and matched in one auditable venue. Request access." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://www.secondariesmatch.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SecondariesMatch" />
+<meta property="og:title" content="SecondariesMatch — Intermediating Secondaries Transactions for Institutions" />
+<meta property="og:description" content="The institutional venue for intermediating secondaries transactions — LP interests, GP-led continuation vehicles, and direct company stakes, priced and matched with full audit trail." />
+<meta property="og:url" content="https://www.secondariesmatch.com/" />
+<meta property="og:image" content="https://www.secondariesmatch.com/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SecondariesMatch — Intermediating Secondaries Transactions for Institutions" />
+<meta name="twitter:description" content="The institutional venue for intermediating secondaries transactions — LP interests, GP-led continuation vehicles, and direct company stakes, priced and matched with full audit trail." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "SecondariesMatch",
+  "url": "https://www.secondariesmatch.com/",
+  "description": "SecondariesMatch is the institutional venue for intermediating secondaries transactions — LP interests, GP-led continuation vehicles, and direct company stakes — for verified institutional buyers and sellers.",
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does it mean to intermediate a secondaries transaction?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Intermediating a secondaries transaction means acting as the trusted venue between a seller of a private-market interest — an LP stake, a GP-led continuation vehicle, or a direct company stake — and a vetted institutional buyer, managing pricing, diligence, and closing throughout. SecondariesMatch intermediates secondaries transactions end-to-end: confidential intake and valuation benchmarking, NDA-gated distribution to accredited buyers, side-by-side bid comparison, and closing support, all logged in an immutable audit trail."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is SecondariesMatch different from a traditional secondaries broker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A traditional broker intermediates a secondaries transaction manually, deal by deal, over email and PDF lists. SecondariesMatch intermediates secondaries transactions through a single auditable venue with live pricing, standardized diligence, and a documented bid process, so both sides see the same data at the same time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who can buy and sell on SecondariesMatch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sell-side users include LP portfolio managers, GPs and fund sponsors running continuation vehicles or strip sales, and direct-secondaries desks. Buy-side users include secondary funds, funds-of-funds, sovereign allocators, pension plans, and family offices — all verified through accreditation and KYC/AML checks before accessing the marketplace."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does a typical secondaries transaction take to close?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Median time to first bid is under two weeks once a listing is live, with full closing typically taking 3 to 10 weeks depending on asset class, ROFR terms, and GP consent requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my listing or bid confidential?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Listings are distributed under NDA to a vetted institutional buyer pool only, every data room is watermarked and leak-traceable, and every view, bid, and NDA event is timestamped in an immutable audit trail."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is SecondariesMatch a registered broker-dealer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Securities-related services on SecondariesMatch are offered through a registered broker-dealer network member, and access is limited to eligible institutional counterparties in permitted jurisdictions."
+      }
+    }
+  ]
+}
+</script>
 <style>
   :root{
     --ink-950:#0A0E17; --ink-800:#131A2A; --ink-600:#2B3550;
@@ -135,6 +212,26 @@
   .closing-cta h2{color:#fff;font-size:36px;line-height:42px;max-width:640px;margin:0 auto 32px;}
   .closing-cta .hero-ctas{justify-content:center;margin-bottom:0;}
 
+  .faq-list{max-width:820px;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line-200);}
+  .faq-item{border-bottom:1px solid var(--line-200);padding:20px 0;}
+  .faq-item summary{cursor:pointer;font-weight:600;font-size:16px;color:var(--ink-950);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;}
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+";font-size:20px;color:var(--slate-500);flex-shrink:0;}
+  .faq-item[open] summary::after{content:"−";}
+  .faq-item p{font-size:14px;line-height:22px;color:var(--slate-500);margin:14px 0 0;max-width:720px;}
+
+  .request-access{background:var(--paper-50);}
+  .access-form{max-width:720px;}
+  .access-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .access-form .field{display:flex;flex-direction:column;gap:6px;}
+  .access-form label{font-size:12px;font-weight:600;color:var(--slate-700);}
+  .access-form input,.access-form select,.access-form textarea{border:1px solid var(--line-200);border-radius:6px;padding:10px 12px;font-size:14px;font-family:inherit;background:#fff;width:100%;}
+  .access-form textarea{resize:vertical;}
+  .ra-status{font-size:14px;margin-top:16px;min-height:20px;}
+  .ra-status.success{color:var(--positive-600);font-weight:600;}
+  .ra-status.error{color:var(--negative-600);font-weight:600;}
+  @media (max-width:640px){.access-form-grid{grid-template-columns:1fr;}}
+
   footer{background:var(--ink-950);color:#8B95AD;padding:64px 0 32px;font-size:13px;}
   .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
   .footer-grid h5{color:#fff;font-size:13px;font-weight:600;margin-bottom:14px;font-family:inherit;}
@@ -205,7 +302,7 @@
       <li><a href="#security">Security</a></li>
       <li><a href="#insights">Insights</a></li>
       <li><a href="#">Sign In</a></li>
-      <li><a class="btn btn-primary" href="#">Request Access</a></li>
+      <li><a class="btn btn-primary" href="#request-access">Request Access</a></li>
     </ul>
   </div>
 </nav>
@@ -224,7 +321,7 @@
     <p class="sub">Verified institutional buyers and sellers transact LP interests, GP-led continuation vehicles, and direct company stakes — with full audit trail, from indication of interest to close.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="#marketplace">Browse the Marketplace →</a>
-      <a class="btn btn-outline-dark" href="#how-it-works">List a Stake</a>
+      <a class="btn btn-outline-dark" href="#request-access">List a Stake</a>
     </div>
     <div class="stat-strip">
       <div class="stat"><div class="num tabular">$18.4B</div><div class="label">Aggregate NAV listed</div></div>
@@ -367,12 +464,83 @@
   </div>
 </section>
 
+<section id="faq">
+  <div class="wrap">
+    <div class="section-eyebrow">Frequently Asked</div>
+    <h2 style="margin-bottom:32px;">Intermediating secondaries transactions, explained.</h2>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>What does it mean to intermediate a secondaries transaction?</summary>
+        <p>Intermediating a secondaries transaction means acting as the trusted venue between a seller of a private-market interest — an LP stake, a GP-led continuation vehicle, or a direct company stake — and a vetted institutional buyer, managing pricing, diligence, and closing throughout. SecondariesMatch intermediates secondaries transactions end-to-end: confidential intake and valuation benchmarking, NDA-gated distribution to accredited buyers, side-by-side bid comparison, and closing support, all logged in an immutable audit trail.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How is SecondariesMatch different from a traditional secondaries broker?</summary>
+        <p>A traditional broker intermediates a secondaries transaction manually, deal by deal, over email and PDF lists. SecondariesMatch intermediates secondaries transactions through a single auditable venue with live pricing, standardized diligence, and a documented bid process, so both sides see the same data at the same time.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Who can buy and sell on SecondariesMatch?</summary>
+        <p>Sell-side users include LP portfolio managers, GPs and fund sponsors running continuation vehicles or strip sales, and direct-secondaries desks. Buy-side users include secondary funds, funds-of-funds, sovereign allocators, pension plans, and family offices — all verified through accreditation and KYC/AML checks before accessing the marketplace.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How long does a typical secondaries transaction take to close?</summary>
+        <p>Median time to first bid is under two weeks once a listing is live, with full closing typically taking 3 to 10 weeks depending on asset class, ROFR terms, and GP consent requirements.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is my listing or bid confidential?</summary>
+        <p>Yes. Listings are distributed under NDA to a vetted institutional buyer pool only, every data room is watermarked and leak-traceable, and every view, bid, and NDA event is timestamped in an immutable audit trail.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is SecondariesMatch a registered broker-dealer?</summary>
+        <p>Securities-related services on SecondariesMatch are offered through a registered broker-dealer network member, and access is limited to eligible institutional counterparties in permitted jurisdictions.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="request-access" class="request-access">
+  <div class="wrap">
+    <div class="section-eyebrow">Get Started</div>
+    <h2 style="margin-bottom:12px;">Request institutional access.</h2>
+    <p style="max-width:560px;color:var(--slate-500);font-size:16px;line-height:24px;margin-bottom:36px;">Tell us whether you're buying or selling and an origination lead will follow up within one business day. No cost to browse — institutional verification is required to bid or list.</p>
+    <form id="access-form" class="access-form" novalidate>
+      <div class="access-form-grid">
+        <div class="field">
+          <label for="ra-name">Full name</label>
+          <input id="ra-name" name="name" type="text" required />
+        </div>
+        <div class="field">
+          <label for="ra-email">Work email</label>
+          <input id="ra-email" name="email" type="email" required />
+        </div>
+        <div class="field">
+          <label for="ra-firm">Institution</label>
+          <input id="ra-firm" name="firm" type="text" required />
+        </div>
+        <div class="field">
+          <label for="ra-intent">I'm here to</label>
+          <select id="ra-intent" name="intent">
+            <option value="buy">Buy — evaluate mandates</option>
+            <option value="sell">Sell — list a stake</option>
+            <option value="both">Both</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:16px;">
+        <label for="ra-message">What are you looking to transact? (optional)</label>
+        <textarea id="ra-message" name="message" rows="3"></textarea>
+      </div>
+      <div id="ra-status" class="ra-status" role="status" aria-live="polite"></div>
+      <button type="submit" class="btn btn-primary" style="margin-top:20px;padding:12px 28px;">Request Access →</button>
+    </form>
+  </div>
+</section>
+
 <section class="closing-cta">
   <div class="wrap">
     <h2>Bring your next secondary to the venue built for institutions.</h2>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#">Request Buyer Access</a>
-      <a class="btn btn-outline-dark" href="#">Talk to Our Origination Team</a>
+      <a class="btn btn-primary" href="#request-access">Request Buyer Access</a>
+      <a class="btn btn-outline-dark" href="mailto:origination@secondariesmatch.com?subject=Origination%20inquiry">Talk to Our Origination Team</a>
     </div>
   </div>
 </section>
@@ -963,6 +1131,41 @@
     renderFilters(); renderTable();
   });
   document.getElementById('f-clear').addEventListener('click', clearFilters);
+
+  // ---------- request access form ----------
+  const accessForm = document.getElementById('access-form');
+  if (accessForm) {
+    accessForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const statusEl = document.getElementById('ra-status');
+      const name = document.getElementById('ra-name').value.trim();
+      const email = document.getElementById('ra-email').value.trim();
+      const firm = document.getElementById('ra-firm').value.trim();
+      const intent = document.getElementById('ra-intent').value;
+      const message = document.getElementById('ra-message').value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (!name || !firm || !emailOk) {
+        statusEl.textContent = 'Please enter your name, institution, and a valid work email.';
+        statusEl.className = 'ra-status error';
+        return;
+      }
+
+      const subject = 'Institutional access request — ' + firm;
+      const body = [
+        'Name: ' + name,
+        'Work email: ' + email,
+        'Institution: ' + firm,
+        'Interested in: ' + intent,
+        'Notes: ' + (message || '—')
+      ].join('%0D%0A');
+      window.location.href = 'mailto:access@secondariesmatch.com?subject=' + encodeURIComponent(subject) + '&body=' + body;
+
+      statusEl.textContent = 'Thanks, ' + name.split(' ')[0] + ' — your email client should open to send the request. An origination lead will follow up within one business day.';
+      statusEl.className = 'ra-status success';
+      accessForm.reset();
+    });
+  }
 
   renderAll();
 })();
