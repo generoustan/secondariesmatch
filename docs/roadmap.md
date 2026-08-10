@@ -89,6 +89,13 @@ Each phase states its objective, what it builds toward the long-term moat, its m
 is proof, not a calendar date — but they should not be skipped, because each one buys the trust
 or data required for the next.
 
+> **Companion document.** The engineering, AI/ML, and model-governance program that delivers these
+> phases is specified in [`docs/technical-roadmap.md`](technical-roadmap.md), which inherits this
+> phase structure rather than defining its own. It adds *technical* gates on top of the business
+> gates below (instrumentation completeness, pricing-model backtest thresholds, model risk policy,
+> human-minutes-per-deal reduction). The two documents are a matched pair: any change to phase
+> definitions or gates must be applied to both in the same edit.
+
 ### Phase 0 — Foundation: License to Operate
 **Objective:** Make the venue legally, operationally, and technically capable of holding
 institutional trust before a single real dollar transacts on it.

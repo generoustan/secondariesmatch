@@ -10,6 +10,10 @@ full audit trail from indication of interest to close.
   (with a reference prototype at [`prototype/index.html`](prototype/index.html))
 - [`docs/roadmap.md`](docs/roadmap.md) — business roadmap: how SecondariesMatch replaces
   bulge-bracket secondaries advisors with a low-cost, high-trust, technology-native venue
+- [`docs/technical-roadmap.md`](docs/technical-roadmap.md) — technical/AI roadmap: competitive
+  positioning versus the Park Hill / Evercore advisory model, the product and ML workstreams that
+  win that position, and the model-risk and human-in-the-loop controls they ship under. Sequenced
+  against the business roadmap's Phases 0–4.
 - [`.claude/agents/architect.md`](.claude/agents/architect.md) — the `architect` agent, a
   standing strategy function that keeps the roadmap current and stress-tests product/business
   decisions against it
