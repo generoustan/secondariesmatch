@@ -17,3 +17,11 @@ full audit trail from indication of interest to close.
 - [`.claude/agents/architect.md`](.claude/agents/architect.md) — the `architect` agent, a
   standing strategy function that keeps the roadmap current and stress-tests product/business
   decisions against it
+
+## Platform code
+
+- [`platform/`](platform/) — a tested reference implementation of the Phase 0/1 technical
+  substrate from `docs/technical-roadmap.md`: the deal graph and event spine, mandate matching,
+  pricing evidence engine, diligence checklist, clause-locked document generation, deterministic
+  KYC/verification, and the entitlements + audit ledger. See `platform/README.md` for what's
+  implemented, what's intentionally stubbed, and how to run the test suite (`npm test`).
