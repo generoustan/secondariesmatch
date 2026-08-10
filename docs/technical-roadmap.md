@@ -5,8 +5,11 @@
 category position against Park Hill, Evercore, Greenhill, Campbell Lutyens, PJT, and the bank
 secondaries desks.
 **Companion to:** [`docs/roadmap.md`](roadmap.md) (business phases, wedge, fee model, trust
-doctrine) and [`docs/design-brief.md`](design-brief.md) (product surface, voice, content-integrity
-rules).
+doctrine), [`docs/design-brief.md`](design-brief.md) (product surface, voice, content-integrity
+rules), and [`docs/category-strategy.md`](category-strategy.md) (category-creation thesis,
+sprint-level Phase 0/1 build plan, search vocabulary). Category strategy proposes amendments to the
+workstream sequencing in its §5; those are not in force until applied here and in `docs/roadmap.md`
+in a single change, per §11.
 **Status:** v1.0 — living document. Phase structure is **inherited** from `docs/roadmap.md` §3
 (Phases 0–4) and must not diverge. If a technical decision changes a business phase gate, edit
 both documents in the same change.
