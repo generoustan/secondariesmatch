@@ -7,9 +7,11 @@ search vocabulary that makes the category findable and ownable.
 doctrine), [`docs/technical-roadmap.md`](technical-roadmap.md) (workstreams W0–W9, model risk,
 instrumentation), [`docs/design-brief.md`](design-brief.md) (product surface, voice,
 content-integrity rules).
-**Status:** v1.0 — living document. Inherits Phases 0–4 from `docs/roadmap.md` §3. Adds **no new
+**Status:** v1.1 — living document. Inherits Phases 0–4 from `docs/roadmap.md` §3. Adds **no new
 phases**. Where it proposes changes to an existing phase or gate, those changes are listed in §5
 as amendments requiring founder sign-off and matched-pair edits per `docs/technical-roadmap.md` §11.
+**v1.1:** amendments A1–A5 in §5 are **adopted and in force** in `docs/roadmap.md` v1.1 and
+`docs/technical-roadmap.md` v1.1. See the status note in §5 for where each now lives.
 
 This document does not restate the phase structure, the workstream list, the incumbent process
 teardown, or the model-risk policy. Read those there. This document answers one question the other
@@ -549,8 +551,26 @@ vocabulary instead of data.
 
 Per `docs/technical-roadmap.md` §11, phases and gates live in the two owner documents and any change
 must be applied to both in a single edit. This document does not make those edits unilaterally. The
-following are proposals requiring founder sign-off; on acceptance, apply each to both documents in
-one change.
+following were proposals requiring founder sign-off; on acceptance, each is applied to both
+documents in one change.
+
+> **Status: A1–A5 ADOPTED** and applied to `docs/roadmap.md` v1.1 and
+> `docs/technical-roadmap.md` v1.1 in a single matched-pair change. The table below is retained as
+> the rationale record — it is why the gates read the way they now do, and it should not be
+> re-litigated without new evidence. Where to find each amendment in force:
+> **A1** → `docs/roadmap.md` §3 Phase 1 (portfolio intake deliverable + non-transacting record
+> gate) and `docs/technical-roadmap.md` §5 Phase 1 (W0 row).
+> **A2** → `docs/technical-roadmap.md` W3 (transferability slice, Phase 1 counterparty-facing).
+> **A3** → `docs/technical-roadmap.md` §8 (category coverage metrics).
+> **A4** → `docs/roadmap.md` §3 Phase 2 gate and `docs/technical-roadmap.md` §5 Phase 2 gates.
+> **A5** → `docs/roadmap.md` §3 Phase 0 and `docs/technical-roadmap.md` W0 data rights.
+>
+> **Added in the same change, beyond what this document proposed:** `docs/roadmap.md` §2A (the
+> regulatory perimeter, including the PTP/qualified-matching-service conditions that constrain the
+> listing surface and the transfer-capacity tracker they create as a GP-side wedge) and
+> `docs/technical-roadmap.md` W10 (fund-administrator, transfer-agent, custodian, and CRM
+> integrations). Both bear directly on this document's thesis: §2A.3 supplies an additional
+> structural reason the incumbents cannot follow us, and W10 is how the record reaches the register.
 
 | # | Amendment | Rationale |
 |---|---|---|

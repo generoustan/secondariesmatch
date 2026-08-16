@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Funnel Dashboard — SecondariesMatch</title>
+<meta name="description" content="Shared instrumentation for the sign-up-to-activation funnel — visible to product, growth, and origination alike." />
+<style>
+  :root{
+    --ink-950:#0A0E17; --paper-0:#FFFFFF; --paper-50:#F7F8FA; --paper-100:#EEF0F4;
+    --line-200:#DEE2E9; --slate-500:#5B6478; --slate-700:#333B4F;
+    --accent-600:#0F5FDC; --accent-50:#EAF1FE;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#fff;color:var(--slate-700);}
+  .wrap{max-width:960px;margin:0 auto;padding:56px 32px;}
+  h1{font-family:Georgia,serif;color:var(--ink-950);font-size:30px;margin:0 0 6px;}
+  p.sub{color:var(--slate-500);font-size:14.5px;margin:0 0 40px;max-width:620px;line-height:1.6;}
+  a.back{font-size:13px;color:var(--accent-600);text-decoration:none;display:inline-block;margin-bottom:24px;}
+  h2{font-family:Georgia,serif;font-size:18px;color:var(--ink-950);margin:0 0 4px;}
+  .section{margin-bottom:48px;}
+  .section .desc{font-size:13px;color:var(--slate-500);margin-bottom:20px;}
+  .funnel-row{display:grid;grid-template-columns:220px 1fr 60px;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--line-200);font-size:13.5px;}
+  .funnel-row .label{color:var(--slate-700);}
+  .funnel-bar-track{background:var(--paper-100);border-radius:4px;height:14px;overflow:hidden;}
+  .funnel-bar-fill{background:var(--accent-600);height:100%;border-radius:4px;transition:width .3s ease-out;}
+  .funnel-row .count{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink-950);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--slate-500);border-bottom:1px solid var(--line-200);padding:8px 12px 8px 0;}
+  td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line-200);color:var(--slate-700);}
+  .empty{font-size:13.5px;color:var(--slate-500);font-style:italic;padding:24px;border:1px dashed var(--line-200);border-radius:8px;}
+  button#clear-events{border:1px solid var(--line-200);background:#fff;color:var(--slate-700);padding:8px 14px;border-radius:6px;font-size:13px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Back to SecondariesMatch</a>
+  <h1>Funnel Dashboard</h1>
+  <p class="sub">The same activation funnel, instrumented and visible to product, growth, and origination in one place — not a marketing-only report. Events are logged locally as you use the demo in this browser.</p>
+
+  <div class="section">
+    <h2>Sign-up → Activation</h2>
+    <div class="desc">Each step counts how many times that event has fired in this browser.</div>
+    <div id="funnel"></div>
+  </div>
+
+  <div class="section">
+    <h2>Recent events</h2>
+    <div class="desc">Most recent first.</div>
+    <div id="events"></div>
+  </div>
+
+  <button id="clear-events">Clear local event log</button>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+(function(){
+  "use strict";
+  const App = window.App;
+
+  function readEvents(){
+    try { return JSON.parse(localStorage.getItem('sm_events')) || []; }
+    catch (e) { return []; }
+  }
+
+  function render(){
+    const events = readEvents();
+    const summary = App.summarizeEvents(events);
+    const max = Math.max(1, ...summary.map(s => s.count));
+    const funnelEl = document.getElementById('funnel');
+    funnelEl.innerHTML = summary.map(s => `
+      <div class="funnel-row">
+        <div class="label">${s.label}</div>
+        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:${(s.count/max*100).toFixed(1)}%"></div></div>
+        <div class="count">${s.count}</div>
+      </div>
+    `).join('');
+
+    const eventsEl = document.getElementById('events');
+    if (events.length === 0) {
+      eventsEl.innerHTML = '<div class="empty">No events logged yet in this browser. Use the marketplace on the main site — request access, save a search, request a data room, or submit a bid — then come back here.</div>';
+    } else {
+      const rows = events.slice().reverse().slice(0, 50);
+      eventsEl.innerHTML = `<table><thead><tr><th>Event</th><th>Time</th></tr></thead><tbody>` +
+        rows.map(e => `<tr><td>${e.type}</td><td>${new Date(e.ts).toLocaleString()}</td></tr>`).join('') +
+        `</tbody></table>`;
+    }
+  }
+
+  document.getElementById('clear-events').addEventListener('click', ()=>{
+    localStorage.removeItem('sm_events');
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

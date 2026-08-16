@@ -10,9 +10,14 @@ rules), and [`docs/category-strategy.md`](category-strategy.md) (category-creati
 sprint-level Phase 0/1 build plan, search vocabulary). Category strategy proposes amendments to the
 workstream sequencing in its §5; those are not in force until applied here and in `docs/roadmap.md`
 in a single change, per §11.
-**Status:** v1.0 — living document. Phase structure is **inherited** from `docs/roadmap.md` §3
+**Status:** v1.1 — living document. Phase structure is **inherited** from `docs/roadmap.md` §3
 (Phases 0–4) and must not diverge. If a technical decision changes a business phase gate, edit
 both documents in the same change.
+**v1.1 changes:** amendments A1–A5 from `docs/category-strategy.md` §5 are **adopted** and applied
+here and in `docs/roadmap.md` in the same change. Adds **W10 — Counterparty-of-Record Integrations**
+(fund administrators, transfer agents, custodians, CRM), the Position entity as a first-class part
+of the deal graph in W0, transfer-legality as a hard matching constraint in W1, and the regulatory
+product constraints now specified in `docs/roadmap.md` §2A.
 
 ---
 
@@ -283,10 +288,27 @@ its dependencies, and the phase it lands in. Phase mapping is consolidated in §
 ### W0 — Process Instrumentation & the Deal Graph *(the substrate; everything depends on it)*
 **Attacks:** step 10 — the fact that incumbent deal data dies at close.
 
-- Canonical entity model: Fund, GP/Manager, Vehicle, LP Interest, Portfolio Company, Security,
-  Counterparty, Mandate, Listing, Bid, Deal, Document, Event. Entity resolution across naming
-  variants (fund families, series, feeder vehicles, SPVs) — this is unglamorous and it is the
-  single highest-leverage piece of infrastructure in the document.
+- Canonical entity model: Fund, GP/Manager, Vehicle, **Position**, LP Interest, Portfolio Company,
+  Security, Counterparty, Mandate, Listing, Bid, Deal, Document, Event. Entity resolution across
+  naming variants (fund families, series, feeder vehicles, SPVs) — this is unglamorous and it is
+  the single highest-leverage piece of infrastructure in the document.
+- **`Position` is the root entity, not `Listing` (A1).** A position is a holding under record; a
+  listing is one action taken against a position. The distinction is the whole category thesis
+  (`docs/category-strategy.md` §2.1) expressed in a schema: a listing-rooted graph can only
+  represent institutions that are selling, which is the episodic advisory frame we are trying to
+  delete. The position record carries its own citations, transferability state, and lifecycle
+  independent of any deal. Data contract: `docs/category-strategy.md` §2.2.
+- **The event spine is scoped to `position_id` and `counterparty_id`, not only `listing_id`.**
+  Portfolio intake, extraction, human confirmation, transferability review, mandate lifecycle, and
+  record access must all emit events for counterparties who never transact — otherwise the
+  non-transacting client, who is the category, is invisible to the system that is supposed to be
+  their record.
+  > **Implementation note (state of the code, as of v1.1).** `platform/src/domain/entities.ts` has
+  > no `Position` type, and `platform/src/domain/events.ts` requires a `listingId` on every event —
+  > so the reference implementation currently encodes the listing-rooted frame this section
+  > rejects. Fixing that schema is the first engineering task of the record build (sprint S1 in
+  > `docs/category-strategy.md` §2.4) and it is cheap now and expensive after the first real
+  > portfolio is ingested. Nothing else in this document compounds correctly until it is done.
 - **Event spine:** every state transition in a deal (listing created, NDA executed, data room
   accessed, bid submitted, bid countered, deal closed, deal withdrawn — including *passes with
   reason codes*) emitted as an immutable, timestamped, typed event. Passes are as valuable as
@@ -294,10 +316,15 @@ its dependencies, and the phase it lands in. Phase mapping is consolidated in §
 - Structured outcome record per closed deal: realized price as % of NAV, reference NAV date, bid
   count, bid dispersion, days from listing to first bid, days to close, and the pricing-relevant
   attribute vector.
-- **Data rights:** the counterparty agreement must grant the platform an explicit, perpetual
+- **Data rights (A5):** the counterparty agreement must grant the platform an explicit, perpetual
   license to use de-identified, aggregated transaction data for benchmarks and analytics. This
   clause is a **Phase 0 blocker** — retrofitting it across 50 executed agreements later is
-  expensive and may be impossible. Cheapest, highest-leverage item in this document.
+  expensive and may be impossible. Cheapest, highest-leverage item in this document. **Extended in
+  v1.1 to cover pre-transaction material:** documents and positions submitted by a client who is
+  not transacting, dormant-record retention periods, processing scope, deletion and export rights,
+  and the entitlement model for a record with no live deal. The record exists before any deal does,
+  so the consent must cover a surface neither this document nor `docs/roadmap.md` previously
+  addressed. No portfolio document is ingested before this agreement is executed.
 - Risk tier: N/A (no inference). Dependency: none. **Phase 0, hardened through Phase 1.**
 
 ### W1 — Mandate Intelligence & Semantic Matching
@@ -315,6 +342,17 @@ its dependencies, and the phase it lands in. Phase mapping is consolidated in §
 - **Hybrid matcher:** hard constraints as deterministic pre-filters (P5), then a learned ranker
   over the eligible set trained on historical bid/pass/close labels. Cold-start ranker is
   rules-plus-similarity; it graduates to learned only when label volume clears the §8 threshold.
+- **Transfer-legality is a hard pre-filter, evaluated per (buyer × position) pair — not a mandate
+  preference.** Per `docs/roadmap.md` §2A.4, whether a given buyer may take a given position turns
+  on facts about *both* sides: ERISA benefit-plan-investor concentration in the fund, permitted-
+  transferee definitions in the LPA, competitor/restricted-transferee exclusions, jurisdiction and
+  sanctions status, the fund's remaining PTP transfer capacity for the tax year (§2A.3), and
+  §1446(f) withholding posture where the seller is non-US. A match that is commercially perfect and
+  legally impossible is worse than no match: it burns the GP relationship that took a year to
+  build. Ineligibility must be surfaced with its reason and its citation, never silently filtered —
+  a buyer who is told *why* they are excluded trusts the venue more, not less.
+  **`platform/src/matching/matcher.ts` currently models mandate fit only**; the eligibility layer
+  is unbuilt and should land before the first real match is shown to a counterparty.
 - **Reason codes on every match** — "matches stated sector focus; NAV size within stated band;
   discount 3pts wider than your last four closed purchases." Explainability here is not just model
   governance; it is the product. Buyers act on reasons, not scores.
@@ -380,9 +418,20 @@ deals from getting enough bids.
   which raises bids per listing, which improves clearing prices, which attracts sellers, which
   generates the pricing data in W2. It is the highest-throughput input to the compounding loop
   even though it looks like a back-office feature.
+- **The transferability slice ships counterparty-facing in Phase 1 (A2).** Split this workstream in
+  two. The *transferability layer* — transfer restrictions, GP consent, ROFR/ROFO and notice
+  periods, permitted-transferee definitions, transfer windows, transfer and admin fees — becomes a
+  **Phase 1 counterparty-facing** deliverable, gated on span citations, a named reviewer, and the
+  absolute rule that no field displays without a citation. Full diligence summaries and red-flag
+  detection remain Phase 2. Rationale: transferability extraction is derived entirely from
+  documents the client hands us, so it **requires no corpus and works at n=0**. It is therefore the
+  only category-defining output available before a single deal closes, and it is the highest-value
+  artifact for the General Counsel persona in `docs/design-brief.md` §3 — the reader who decides
+  whether the fund may participate at all. It is also the same asset as the highest-value content
+  cluster in `docs/category-strategy.md` §3.5: the product and the search surface are one thing.
 - Risk tier: T1 (extraction and summaries), with any output feeding a transaction document
-  escalating to T2. Dependencies: W0, W7 entitlements. **Phase 1 (internal analyst tool), Phase 2
-  (counterparty-facing).**
+  escalating to T2. Dependencies: W0, W7 entitlements. **Phase 1 (internal analyst tool +
+  counterparty-facing transferability layer), Phase 2 (full diligence summaries).**
 
 ### W4 — Document Generation with Clause Locks
 **Attacks:** step 3 and step 5 — associate drafting and NDA cycle time.
@@ -505,6 +554,55 @@ permanent rather than promotional.
   the benchmark stops being ours and becomes the market's, while we run it.
 - Risk tier: T1. Dependencies: W0, W2, W8. **Phase 2 → 4.**
 
+### W10 — Counterparty-of-Record Integrations *(fund administrators, transfer agents, custodians, CRM)*
+**Attacks:** step 9 — closing mechanics — and the fact that no prior version of this roadmap named
+the party who actually completes a transfer.
+
+This workstream was absent from v1.0 and it is, on reflection, the most defensible non-data moat
+available. A secondaries transaction is not complete when a bid is accepted. It is complete when
+**the fund administrator updates the register** and the buyer is admitted as a partner of record.
+Every advisor in `§1.1` step 9 hands that last mile to counsel and the administrator over email.
+Whoever automates it sits inside the transaction permanently.
+
+- **Integration tiers, built in this order:**
+  - **T-0 — Document intake (always supported, never deprecated).** Capital-account statements and
+    portfolio schedules parsed via W3. This is the fallback that must work forever, because it is
+    what keeps an administrator from ever being able to gate our access. Build the integrations to
+    make T-0 faster, never to make it unnecessary.
+  - **T-1 — Read.** Position, NAV, capital-account, and unfunded feeds from administrators and
+    allocator portfolio systems. Turns the Position Ledger from a quarterly snapshot into a live
+    record, which is what makes the subscription renew.
+  - **T-2 — Write / instruct.** Transfer instruction packets, GP consent routing and status,
+    §1446(f) certification collection, ROFR notice generation and clock tracking, and
+    confirmation of the register update as a structured event on the spine.
+  - **T-3 — Embedded.** The administrator or GP runs their transfer workflow *in* our system
+    because it is better than their internal one. This is the switching cost the Phase 3
+    GP-workflow embedding in W7 is aiming at, reached through operations rather than through UI.
+- **The GP wedge is the transfer-capacity tracker** (`docs/roadmap.md` §2A.3): live remaining PTP
+  transfer capacity per fund per tax year, aggregated across *all* transfers including those that
+  never touched our platform, with the supporting evidence. It is a small piece of deterministic
+  arithmetic (P3 — never a model) attached to a genuine institutional fear, it gives a GP a reason
+  to onboard a fund to the record with no LP selling, and it is the natural first thing to ask an
+  administrator to feed us. Start here rather than with a general-purpose integration.
+- **Buy-side CRM integration** is the mirror image: mandates currently live in IC memos and the
+  buyer's CRM. Writing structured mandate objects back into the buyer's own system, and accepting
+  updates from it, makes our mandate registry the thing their process depends on. API consumption
+  is deeper lock-in than UI usage (W9), and mandate-object sync is the cheapest version of it.
+- **Which counterparties to integrate is an empirical Phase 2 question, not a market-share
+  question:** pick by where the NAV in our first portfolios under record actually sits. Integrating
+  with the largest administrator in the industry is worth nothing if none of our positions are
+  administered there.
+- **Why a well-funded clone cannot shortcut this:** integration agreements are executed
+  bilaterally, data mappings are built per counterparty against inconsistent formats, and
+  operational trust with an administrator's transfer team is earned over cycles. Capital
+  accelerates a UI clone; it does not accelerate a signature from an administrator's legal team.
+- **The dependency risk is real and named** (`docs/roadmap.md` §8): integrate with several rather
+  than one, keep T-0 permanently viable, and make the GP — not the administrator — the party whose
+  problem we are solving, so that our position is not held at an intermediary's discretion.
+- Risk tier: T0/N-A (deterministic movement of records; any generated instruction document is T2
+  under W4). Dependencies: W0 (position entity), W7 (entitlements, audit ledger).
+  **Phase 1 T-0, Phase 2 T-1 and the capacity tracker, Phase 3 T-2, Phase 4 T-3.**
+
 ---
 
 ## 5. Sequencing Against the Business Phases
@@ -518,7 +616,7 @@ counterparties, founding transactors hired.*
 
 | Workstream | Deliverable |
 |---|---|
-| W0 | Deal graph schema v0; event spine live; **data-rights clause executed in every counterparty agreement** |
+| W0 | Deal graph schema v0 **rooted on `Position`, with the event spine scoped to position and counterparty rather than listing**; event spine live; **data-rights clause executed in every counterparty agreement, covering pre-transaction documents and dormant records (A5)** |
 | W7 | Entitlements, KYC/AML onboarding, encrypted watermarked data rooms, hash-chained audit ledger v1 |
 | W6 | Deterministic verification and screening stack live |
 | W8 | LLM gateway with zero-retention vendor terms, region pinning, full call logging |
@@ -527,7 +625,10 @@ counterparties, founding transactors hired.*
 | Prototype | `prototype/index.html` "Illustrative" labeling preserved per `docs/design-brief.md` §9 — no AI-generated pricing or listing content ships without that label until real deal flow exists |
 
 **Added technical gate:** every AI call in production is ledger-recorded and reproducible; Model
-Risk Policy approved; data-rights clause in force. *No counterparty-facing AI output in Phase 0.*
+Risk Policy approved; data-rights clause in force *including its pre-transaction extension*; the
+listing lifecycle and quoting model reviewed by tax counsel against the PTP conditions in
+`docs/roadmap.md` §2A.3 **before** any listing surface goes live to real counterparties.
+*No counterparty-facing AI output in Phase 0.*
 
 ### Phase 1 — The Wedge: Win One Segment Cold
 *Business gate (unchanged): first real closed transactions, repeatable process definition, first
@@ -540,10 +641,11 @@ commercially and failed strategically.
 
 | Workstream | Deliverable |
 |---|---|
-| W0 | Full instrumentation of the concierge process; structured outcome record on every closed deal; **pass reason codes captured** |
-| W1 | Structured mandate capture + NL mandate intake with human confirmation; rules-and-similarity matching; reverse matching shown to sellers |
+| W0 | Full instrumentation of the concierge process; **Position Ledger and portfolio intake for non-transacting sellers (A1)**; structured outcome record on every closed deal; **pass reason codes captured** |
+| W1 | Structured mandate capture + NL mandate intake with human confirmation; rules-and-similarity matching; **transfer-legality eligibility pre-filter with reasons and citations**; reverse matching shown to sellers; standing portfolio-wide demand map with change log |
 | W2 | Stage 1 evidence sheets only — comparables with provenance, **no predictive model** |
-| W3 | Internal analyst diligence tool: extraction with span citations, checklist verification |
+| W3 | Internal analyst diligence tool: extraction with span citations, checklist verification; **counterparty-facing transferability layer (A2)** — six provision types, span-cited, named reviewer, no display without citation |
+| W10 | T-0 document intake path hardened; the closing-mechanics surface (GP consent, ROFR clocks, §1446(f) certifications) run manually but **instrumented**, so the integration built in Phase 2 replaces a measured process rather than an imagined one |
 | W4 | Counsel-approved template library + clause-locked generation for teaser, process letter, NDA; named sign-off enforced |
 | W5 | Origination desk copilot (internal) |
 | W8 | Warehouse, golden eval sets, model registry v1 |
@@ -554,6 +656,11 @@ commercially and failed strategically.
 - ≥90% of closed deals have a complete structured outcome record.
 - Zero uncorrected T2 factual defects reaching a counterparty; reviewer override rate tracked and
   non-trivial (evidence that review is real).
+- **At least one institutional portfolio under record that has not transacted (A1)**, with
+  transferability coverage ≥90% of its NAV, human-reviewed and cited, and its coverage gaps shown
+  to the client rather than hidden.
+- Extraction F1 for the six transferability provision types measured against an analyst-labeled
+  gold set and recorded in the model registry before the layer is shown to any counterparty.
 
 ### Phase 2 — The Liquidity Engine
 *Business gate (unchanged): matching and pricing automation live on real deals; three asset classes
@@ -569,11 +676,16 @@ transacting; first paying data-subscription customers.*
 | W7 | Self-serve data rooms, e-signature, closing workflow, live status across the marketplace table |
 | W8 | Feature store with point-in-time correctness, shadow-mode promotion, drift monitoring, full eval harness |
 | W9 | Benchmark subscription v1 with k-anonymity enforcement and re-identification testing |
+| W10 | T-1 read integrations with the administrators holding our first portfolios' NAV; **GP-facing PTP transfer-capacity tracker** (deterministic, evidence-backed) as the wedge product |
 
 **Added technical gates:**
 - Pricing model beats the naive cohort-mean baseline on a temporally-split backtest by a
   pre-registered margin, **and** interval coverage is within tolerance of nominal.
 - Matching drives a measurable lift in bids-per-listing versus the Phase 1 concierge baseline.
+- At least one production administrator or transfer-agent integration carrying real position data,
+  with the T-0 document path still fully operable as a fallback.
+- **Recurring revenue from a seller under record who has not transacted (A4)** — the first hard
+  evidence the category exists as a budget line rather than as our vocabulary.
 - Human-minutes-per-closed-deal down materially against the Phase 1 baseline — the automation
   dividend, proven with a number rather than asserted.
 - Adversarial security review of retrieval scoping and prompt injection passed before any
@@ -585,7 +697,8 @@ deal.*
 
 | Workstream | Deliverable |
 |---|---|
-| W2 | Published benchmark series with methodology, sample disclosure, and revision policy |
+| W2 | Published benchmark series with methodology, sample disclosure, and revision policy — plus the **administration apparatus** that makes it citable: permanent methodology URL, named methodology committee, contributor code of conduct, fixed calculation cadence, restatement policy, independent review of the calculation |
+| W10 | T-2 write/instruct integrations: transfer instruction packets, GP consent routing, §1446(f) certification collection, ROFR notice clocks, register-update confirmation as a structured event |
 | W5 | Bounded agentic execution over an enumerated action space, human approval on all external effects |
 | W6 | Mature fraud/collusion detection; continuous control monitoring |
 | W7 | GP workflow embedding: CV election and allocation, waterfall calculators, LP consent tracking (deterministic per P3) |
@@ -606,6 +719,7 @@ independence-vs-strategic-exit decision made from leverage.*
 | W9 | Infrastructure licensing (pricing API, matching-as-a-service) bundled with the model governance package |
 | W9 | Consortium contribution model: data-for-access with competitors and administrators |
 | W8 | Multi-tenant model serving with per-licensee isolation and per-licensee evaluation reporting |
+| W10 | T-3 embedded: administrators and GPs run their own transfer workflow inside the platform. At this point the venue is operationally load-bearing for parties who are not our customers in the transactional sense — which is the definition of infrastructure |
 
 **Added technical gate:** a third party sets or defends a price using our benchmark in a
 transaction we are not party to. That is the moment the infrastructure thesis in
@@ -665,6 +779,8 @@ follows.
 | Loop stage | Metric | Owner |
 |---|---|---|
 | Cost structure (north star) | **Human minutes per closed deal**; fully-loaded cost to close per $1M of NAV transacted | Head of Product |
+| **Category coverage (A3)** | **Record coverage** (% of client NAV with a normalized, source-cited position); **transferability coverage** (% of client NAV with a reviewed, cited transfer/consent/ROFR state); **price coverage** (% of client NAV in a cohort meeting the minimum-n evidence threshold). Per `docs/category-strategy.md` §1.6 these are per-client, published to the client with gaps visible, and are the spec-sheet metrics we want the whole market measured on | Head of Product |
+| Integration depth (W10) | Positions under record fed by integration vs. document intake; funds with live transfer-capacity tracking; days from bid acceptance to confirmed register update (the real "time to close") | W10 |
 | Mandate capture | Structured mandates on file; field completeness; NL-intake field acceptance rate | W1 |
 | Matching quality | Bids per listing; precision@k against bid/close labels; seller-side "qualifying mandates shown" accuracy | W1 |
 | Pricing quality | MAE of indicative midpoint vs. realized close (% of NAV); interval coverage vs. nominal; cohort backtest by vintage/strategy; share of estimate attributable to platform-realized data | W2 |
@@ -689,6 +805,10 @@ follows.
 | Instrumentation deferred during Phase 1 concierge crunch | The most likely real-world failure: deals close, data doesn't get captured, Phase 2 has nothing to train on | Event emission is definition-of-done for every Phase 1 workflow; ≥90% outcome-record completeness is an explicit Phase 1 gate |
 | Incumbent bolts on document AI | Erodes the cost-reduction advantage, not the data advantage | Sequenced accordingly: W4 is margin, W0/W1/W2 are moat. Never confuse the two in planning or in pitch |
 | Benchmark publication triggers regulatory obligations | Benchmark administration rules in some jurisdictions | Counsel review before Phase 3 publication; methodology and governance documented in advance |
+| **Product design breaches a PTP safe-harbour condition** | A firm-quote order book, a sub-waiting-period close, or an untracked volume cap on LP interests can jeopardise a fund's pass-through tax status — the one failure a GP never forgives, and it would end our access to the GP-led segment entirely | Treat the §1.7704-1(g) conditions in `docs/roadmap.md` §2A.3 as enforced product logic with GP-visible evidence, not as guidance: non-firm quoting, hard waiting-period clocks on the listing lifecycle, and per-fund per-tax-year capacity tracking. Tax counsel reviews the listing lifecycle **as specified in code**, not as described in a deck |
+| **Schema encodes the listing-rooted frame** | A deal graph rooted on `Listing` cannot represent a non-transacting client, which is the entire category thesis; the cost of changing it rises with every ingested portfolio | Fix `entities.ts` / `events.ts` to root on `Position` before the first real portfolio is ingested (W0 implementation note) |
+| **Administrator dependency becomes a chokepoint** | The integration moat is bilateral: an administrator could gate access or build competing tooling | Multiple administrators, never one; T-0 document intake permanently supported so no counterparty can cut off data entry; solve the GP's problem rather than the administrator's |
+| **A well-funded clone copies the surface** | The UI, the fee schedule, and the marketing are all copyable within a quarter, and capital compresses that further | Compete on what capital cannot compress: executed pre-transaction data rights, accumulated pass/bid labels, gold-set-validated transferability extraction, administrator integrations, and GP relationships built through the capacity tracker. Audit every quarter's roadmap for the ratio of surface work to compounding work |
 
 ---
 
@@ -704,6 +824,8 @@ follows.
 | ML platform engineer | Feature store, registry, eval harness, shadow deployment | 2 |
 | **Model risk / AI governance owner** (may sit under Head of Compliance initially) | Owns the AI Use Register, tiering, validation, and sampling audits; independent of the team shipping the models | 1–2, independent by 3 |
 | Data product manager | Owns W9 benchmark and API commercialization | 2–3 |
+| Integrations engineer (fund admin / transfer agent formats and operations) | Owns W10; this is an operations-literate engineering role, not a generic API role — the hard part is inconsistent formats and an administrator's transfer team, not HTTP | 2 |
+| **Retained tax counsel, separate from securities counsel** | `docs/roadmap.md` §6 names securities counsel only. The PTP/§7704 safe harbours, §1446(f) withholding, and ERISA plan-asset limits (`docs/roadmap.md` §2A) are **tax and ERISA questions that constrain the product surface**, and a securities lawyer will not answer them. Engaging only one of the two is the most likely way this company gets a structural constraint wrong late | 0 |
 
 ---
 
