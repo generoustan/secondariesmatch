@@ -1,0 +1,14 @@
+{
+  "name": "secondariesmatch",
+  "private": true,
+  "version": "1.0.0",
+  "description": "SecondariesMatch — institutional secondaries marketplace prototype.",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/unit/**/*.test.js",
+    "test:e2e": "node tests/e2e/run.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  }
+}
