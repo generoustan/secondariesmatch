@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign In — SecondariesMatch</title>
+<meta name="description" content="Sign in to your SecondariesMatch institutional account." />
+<link rel="stylesheet" href="/assets/site.css" />
+<style>
+  main.auth-main{min-height:calc(100vh - 40px - 72px - 260px);display:flex;align-items:center;padding:72px 0;}
+</style>
+</head>
+<body>
+
+<div class="utility-bar">
+  <div class="wrap">
+    <div>Institutional access only &nbsp;·&nbsp; SOC 2 Type II &nbsp;·&nbsp; Member FINRA-registered broker-dealer network</div>
+    <div style="display:flex;gap:20px;align-items:center;">
+      <span>United States · USD</span>
+      <a href="/sign-in" aria-current="page">Sign In</a>
+    </div>
+  </div>
+</div>
+
+<nav class="primary">
+  <div class="wrap">
+    <a class="logo" href="/">SecondariesMatch</a>
+    <ul class="nav-links">
+      <li><a href="/#marketplace">Marketplace</a></li>
+      <li><a href="/#how-it-works">How It Works</a></li>
+      <li><a href="/#how-it-works">Sell a Stake</a></li>
+      <li><a href="/security">Security</a></li>
+      <li><a href="/#insights">Insights</a></li>
+      <li><a href="/sign-in" aria-current="page">Sign In</a></li>
+      <li><a class="btn btn-primary" href="/contact">Request Access</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="auth-main">
+  <div class="wrap">
+    <div class="auth-shell">
+      <div class="auth-card">
+        <h1>Sign in</h1>
+        <p class="sub">Institutional accounts are provisioned by invitation after KYC/AML and accreditation review.</p>
+        <form class="form-grid" onsubmit="return false;">
+          <div class="field">
+            <label for="email">Work email</label>
+            <input id="email" type="email" placeholder="you@yourfirm.com" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+          </div>
+          <button class="btn btn-primary" type="submit" disabled style="width:100%;padding:12px;">Sign In — account access not yet live</button>
+        </form>
+        <div class="auth-foot">
+          Don't have institutional access yet?<br />
+          <a href="/contact" style="color:var(--accent-600);font-weight:600;text-decoration:none;">Request access →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div style="font-family:Georgia,serif;font-size:18px;color:#fff;margin-bottom:12px;">SecondariesMatch</div>
+        <div style="font-size:13px;line-height:20px;max-width:280px;">The institutional exchange for private market secondaries.</div>
+      </div>
+      <div>
+        <h5>Marketplace</h5>
+        <ul><li><a href="/#marketplace">Fund Interests</a></li><li><a href="/#marketplace">Direct Stakes</a></li><li><a href="/#marketplace">Real Assets</a></li></ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul><li><a href="/#how-it-works">How It Works</a></li><li><a href="/#insights">Insights</a></li><li><a href="/security">Security</a></li></ul>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <ul><li><a href="/legal/terms">Terms of Use</a></li><li><a href="/legal/privacy">Privacy Policy</a></li><li><a href="/legal/risk-disclosures">Risk Disclosures</a></li><li><a href="/legal/regulatory">Broker-Dealer Disclosures</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <div>© 2026 SecondariesMatch. Securities-related services offered through a registered broker-dealer network member. Available only to eligible institutional counterparties in permitted jurisdictions.</div>
+      <span>LinkedIn (coming soon)</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
