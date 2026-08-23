@@ -1,0 +1,26 @@
+{
+  "name": "secondariesmatch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/generoustan/secondariesmatch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/generoustan/secondariesmatch/issues"
+  },
+  "homepage": "https://github.com/generoustan/secondariesmatch#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}

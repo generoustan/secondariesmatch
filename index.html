@@ -200,12 +200,34 @@
   .security-item h4{font-size:15px;margin:14px 0 6px;font-family:inherit;font-weight:600;}
   .security-item p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
 
+  .leadership-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .leader-card{border:1px solid var(--line-200);border-radius:10px;padding:24px;}
+  .leader-photo{width:48px;height:48px;border-radius:50%;background:var(--ink-950);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:600;font-size:15px;margin-bottom:16px;}
+  .leader-card h4{font-size:15px;margin-bottom:8px;font-family:inherit;font-weight:600;}
+  .leader-bio{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
+
   .insights{background:var(--paper-50);}
   .insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px;}
   .insight-card{background:#fff;border:1px solid var(--line-200);border-radius:10px;padding:24px;}
+  .insight-card{display:block;text-decoration:none;transition:border-color .15s;}
+  .insight-card:hover{border-color:var(--slate-500);}
   .insight-card .date{font-size:12px;color:var(--slate-500);margin-bottom:10px;}
   .insight-card h4{font-size:17px;line-height:24px;margin-bottom:10px;font-family:inherit;font-weight:600;}
-  .insight-card p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
+  .insight-card p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0 0 14px;}
+  .insight-card .read-more{font-size:13px;font-weight:600;color:var(--accent-600);}
+
+  .lead-magnet{margin-top:48px;background:var(--ink-950);border-radius:12px;padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+  .lead-magnet-copy{max-width:520px;}
+  .lead-magnet-copy h3{color:#fff;font-size:24px;line-height:30px;margin-bottom:10px;}
+  .lead-magnet-copy p{color:#AEB6C9;font-size:14px;line-height:21px;margin:0;}
+  .lead-magnet-form{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
+  .lead-magnet-form .field label{color:#AEB6C9;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:6px;}
+  .lead-magnet-form .field input{border:1px solid #4A5470;border-radius:6px;padding:10px 12px;font-size:14px;background:#131A2A;color:#fff;width:240px;}
+  .lead-magnet-form .field input::placeholder{color:#7C88A6;}
+  .lead-magnet #lm-status{width:100%;color:#AEB6C9;}
+  .lead-magnet #lm-status.success{color:#5FD394;}
+  .lead-magnet #lm-status.error{color:#F28B82;}
+  @media (max-width:780px){.lead-magnet{padding:28px;}.lead-magnet-form{width:100%;}.lead-magnet-form .field input{width:100%;}}
 
   .closing-cta{background:var(--ink-950);text-align:center;}
   .closing-cta h2{color:#fff;font-size:36px;line-height:42px;max-width:640px;margin:0 auto 32px;}
@@ -220,6 +242,7 @@
   .faq-item p{font-size:14px;line-height:22px;color:var(--slate-500);margin:14px 0 0;max-width:720px;}
 
   .request-access{background:var(--paper-50);}
+  .referral-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-50);border:1px solid #C7DBFB;color:var(--accent-700);border-radius:6px;padding:8px 14px;font-size:13px;font-weight:600;margin-bottom:20px;}
   .access-form{max-width:720px;}
   .access-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   .access-form .field{display:flex;flex-direction:column;gap:6px;}
@@ -238,6 +261,12 @@
   .footer-grid a{text-decoration:none;color:#8B95AD;}
   .footer-grid a:hover{color:#fff;}
   .footer-legal{border-top:1px solid var(--ink-600);padding-top:24px;display:flex;justify-content:space-between;font-size:12px;gap:24px;flex-wrap:wrap;}
+
+  .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink-950);border-top:1px solid var(--ink-600);transform:translateY(100%);transition:transform .25s ease-out;}
+  .sticky-cta.visible{transform:translateY(0);}
+  .sticky-cta-inner{padding:14px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .sticky-cta-inner span{color:#AEB6C9;font-size:13px;}
+  @media (max-width:640px){.sticky-cta-inner span{display:none;}}
 
   .overlay{position:fixed;inset:0;background:rgba(10,14,23,0.45);z-index:90;display:none;}
   .overlay.active{display:block;}
@@ -274,7 +303,8 @@
   @media (max-width: 980px){
     .hero h1{font-size:38px;}
     .stat-strip{grid-template-columns:repeat(2,1fr);}
-    .track-grid,.featured-grid,.security-grid,.insight-grid,.footer-grid{grid-template-columns:1fr 1fr;}
+    .track-grid,.featured-grid,.security-grid,.insight-grid,.footer-grid,.leadership-grid{grid-template-columns:1fr 1fr;}
+    .lead-magnet{flex-direction:column;align-items:flex-start;}
     .nav-links{display:none;}
   }
 </style>
@@ -299,6 +329,7 @@
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#how-it-works">Sell a Stake</a></li>
       <li><a href="#security">Security</a></li>
+      <li><a href="#leadership">Leadership</a></li>
       <li><a href="#insights">Insights</a></li>
       <li><a href="#">Sign In</a></li>
       <li><a class="btn btn-primary" href="#request-access">Request Access</a></li>
@@ -450,6 +481,31 @@
   </div>
 </section>
 
+<section id="leadership" class="leadership">
+  <div class="wrap">
+    <div class="section-eyebrow">Leadership</div>
+    <h2 style="max-width:640px;margin-bottom:8px;">Built by people who have priced secondaries before.</h2>
+    <p class="illustrative-note" style="margin-bottom:36px;">Illustrative team profiles — placeholders until the founding team page ships</p>
+    <div class="leadership-grid">
+      <div class="leader-card">
+        <div class="leader-photo" aria-hidden="true">AR</div>
+        <h4>Founder &amp; CEO</h4>
+        <p class="leader-bio">Formerly led secondaries origination at a bulge-bracket bank; has priced and closed LP and GP-led transactions across buyout, venture, and credit.</p>
+      </div>
+      <div class="leader-card">
+        <div class="leader-photo" aria-hidden="true">MK</div>
+        <h4>Head of Compliance</h4>
+        <p class="leader-bio">Former broker-dealer compliance officer; built the KYC/AML and audit-trail framework that governs every listing and bid on the platform.</p>
+      </div>
+      <div class="leader-card">
+        <div class="leader-photo" aria-hidden="true">JT</div>
+        <h4>Head of Origination</h4>
+        <p class="leader-bio">A decade sourcing GP-led continuation vehicles and direct secondaries; runs the curation process behind Featured Opportunities.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="insights" id="insights">
   <div class="wrap">
     <div class="section-head" style="margin-bottom:36px;">
@@ -460,6 +516,22 @@
       <div class="illustrative-note">Illustrative example content</div>
     </div>
     <div class="insight-grid" id="insight-grid"></div>
+
+    <div class="lead-magnet" id="lead-magnet">
+      <div class="lead-magnet-copy">
+        <div class="section-eyebrow" style="margin-bottom:6px;">Free Benchmark</div>
+        <h3>Get the Q3 2026 Secondary Pricing Survey.</h3>
+        <p>Bid-ask spreads by asset class, vintage, and sector — the same benchmark our origination desk uses to price new listings. Delivered to your inbox, no cost.</p>
+      </div>
+      <form id="lead-magnet-form" class="lead-magnet-form" novalidate data-cta="pricing-survey-lead-magnet">
+        <div class="field">
+          <label for="lm-email">Work email</label>
+          <input id="lm-email" name="email" type="email" required placeholder="you@institution.com" />
+        </div>
+        <button type="submit" class="btn btn-primary" data-cta="pricing-survey-submit">Get the Survey →</button>
+      </form>
+      <div id="lm-status" class="ra-status" role="status" aria-live="polite"></div>
+    </div>
   </div>
 </section>
 
@@ -501,7 +573,8 @@
     <div class="section-eyebrow">Get Started</div>
     <h2 style="margin-bottom:12px;">Request institutional access.</h2>
     <p style="max-width:560px;color:var(--slate-500);font-size:16px;line-height:24px;margin-bottom:36px;">Tell us whether you're buying or selling and an origination lead will follow up within one business day. No cost to browse — institutional verification is required to bid or list.</p>
-    <form id="access-form" class="access-form" novalidate>
+    <div id="ra-referral-badge" class="referral-badge" style="display:none;"></div>
+    <form id="access-form" class="access-form" novalidate data-cta="request-access-form">
       <div class="access-form-grid">
         <div class="field">
           <label for="ra-name">Full name</label>
@@ -524,12 +597,21 @@
           </select>
         </div>
       </div>
-      <div class="field" style="margin-top:16px;">
-        <label for="ra-message">What are you looking to transact? (optional)</label>
-        <textarea id="ra-message" name="message" rows="3"></textarea>
+      <div class="access-form-grid" style="margin-top:16px;">
+        <div class="field">
+          <label for="ra-referred">Referred by (optional)</label>
+          <input id="ra-referred" name="referredBy" type="text" placeholder="Colleague or firm name" />
+        </div>
+        <div class="field">
+          <label for="ra-message">What are you looking to transact? (optional)</label>
+          <textarea id="ra-message" name="message" rows="1" style="resize:vertical;min-height:42px;"></textarea>
+        </div>
       </div>
+      <input type="hidden" id="ra-utm-source" name="utmSource" />
+      <input type="hidden" id="ra-utm-medium" name="utmMedium" />
+      <input type="hidden" id="ra-utm-campaign" name="utmCampaign" />
       <div id="ra-status" class="ra-status" role="status" aria-live="polite"></div>
-      <button type="submit" class="btn btn-primary" style="margin-top:20px;padding:12px 28px;">Request Access →</button>
+      <button type="submit" class="btn btn-primary" style="margin-top:20px;padding:12px 28px;" data-cta="request-access-submit">Request Access →</button>
     </form>
   </div>
 </section>
@@ -570,6 +652,13 @@
     </div>
   </div>
 </footer>
+
+<div class="sticky-cta" id="sticky-cta">
+  <div class="wrap sticky-cta-inner">
+    <span>Verified institutional buyers and sellers — an origination lead follows up within one business day.</span>
+    <a class="btn btn-primary" href="#request-access" data-cta="sticky-request-access">Request Access →</a>
+  </div>
+</div>
 
 <div class="overlay" id="overlay"></div>
 
@@ -688,9 +777,9 @@
     {id:6,name:'Baywood Multifamily Fund IV',type:'Residential Real Estate',vintage:2017,geography:'North America',nav:97.5,ask:92,unfunded:0,status:'open',description:'Class-B multifamily portfolio across Sunbelt growth markets.',gpTrackRecord:'5.8% average cap rate',terms:'No ROFR',timeline:'5–7 weeks to close',documents:'Rent rolls, appraisals, LPA'}
   ];
   const insights = [
-    {date:'July 2026',title:'Q2 2026 Secondary Pricing Survey',summary:'Buyout funds averaging 91% of NAV, up 3 points quarter-over-quarter as bid-ask spreads narrow across the market.'},
-    {date:'June 2026',title:'GP-Led Continuation Vehicles: 2026 Outlook',summary:'Continuation vehicle volume on pace to exceed prior-year totals as sponsors extend holds on top-performing assets.'},
-    {date:'May 2026',title:'Direct Secondaries in Late-Stage Tech',summary:'Discounts on late-stage venture and growth equity stakes have compressed as primary markets reopen.'}
+    {date:'July 2026',title:'Q2 2026 Secondary Pricing Survey',summary:'Buyout funds averaging 91% of NAV, up 3 points quarter-over-quarter as bid-ask spreads narrow across the market.',slug:'q2-2026-secondary-pricing-survey'},
+    {date:'June 2026',title:'GP-Led Continuation Vehicles: 2026 Outlook',summary:'Continuation vehicle volume on pace to exceed prior-year totals as sponsors extend holds on top-performing assets.',slug:'gp-led-continuation-vehicles-2026-outlook'},
+    {date:'May 2026',title:'Direct Secondaries in Late-Stage Tech',summary:'Discounts on late-stage venture and growth equity stakes have compressed as primary markets reopen.',slug:'direct-secondaries-late-stage-tech'}
   ];
   const sellerSteps = [
     {n:1,title:'Confidential intake & valuation benchmark',desc:'Share mandate details privately; receive an indicative pricing benchmark.'},
@@ -962,11 +1051,12 @@
   }
 
   document.getElementById('insight-grid').innerHTML = insights.map(note=>`
-    <div class="insight-card">
+    <a class="insight-card" href="insights/${esc(note.slug)}.html" data-cta="insight-card-${esc(note.slug)}">
       <div class="date">${esc(note.date)}</div>
       <h4>${esc(note.title)}</h4>
       <p>${esc(note.summary)}</p>
-    </div>
+      <span class="read-more">Read the note →</span>
+    </a>
   `).join('');
 
   // ---------- drawer ----------
@@ -1142,6 +1232,7 @@
       const firm = document.getElementById('ra-firm').value.trim();
       const intent = document.getElementById('ra-intent').value;
       const message = document.getElementById('ra-message').value.trim();
+      const referredBy = document.getElementById('ra-referred').value.trim();
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
       if (!name || !firm || !emailOk) {
@@ -1150,12 +1241,17 @@
         return;
       }
 
+      const attribution = readAttribution();
       const subject = 'Institutional access request — ' + firm;
       const body = [
         'Name: ' + name,
         'Work email: ' + email,
         'Institution: ' + firm,
         'Interested in: ' + intent,
+        'Referred by: ' + (referredBy || attribution.ref || '—'),
+        'UTM source: ' + (attribution.utmSource || '—'),
+        'UTM medium: ' + (attribution.utmMedium || '—'),
+        'UTM campaign: ' + (attribution.utmCampaign || '—'),
         'Notes: ' + (message || '—')
       ].join('%0D%0A');
       window.location.href = 'mailto:access@secondariesmatch.com?subject=' + encodeURIComponent(subject) + '&body=' + body;
@@ -1166,6 +1262,98 @@
     });
   }
 
+  // ---------- attribution: warm-intro referral + UTM capture ----------
+  function readAttribution(){
+    const params = new URLSearchParams(window.location.search);
+    const attribution = {
+      ref: params.get('ref') || '',
+      utmSource: params.get('utm_source') || '',
+      utmMedium: params.get('utm_medium') || '',
+      utmCampaign: params.get('utm_campaign') || ''
+    };
+    let stored = {};
+    try { stored = JSON.parse(localStorage.getItem('sm_attribution') || '{}'); } catch (e) { stored = {}; }
+    const merged = {
+      ref: attribution.ref || stored.ref || '',
+      utmSource: attribution.utmSource || stored.utmSource || '',
+      utmMedium: attribution.utmMedium || stored.utmMedium || '',
+      utmCampaign: attribution.utmCampaign || stored.utmCampaign || ''
+    };
+    try { localStorage.setItem('sm_attribution', JSON.stringify(merged)); } catch (e) { /* storage unavailable */ }
+    return merged;
+  }
+
+  function applyAttribution(){
+    const attribution = readAttribution();
+    const referredInput = document.getElementById('ra-referred');
+    const badge = document.getElementById('ra-referral-badge');
+    if (attribution.ref) {
+      if (referredInput && !referredInput.value) referredInput.value = attribution.ref;
+      if (badge) {
+        badge.textContent = 'Referred by ' + attribution.ref;
+        badge.style.display = 'inline-flex';
+      }
+    }
+    const src = document.getElementById('ra-utm-source');
+    const med = document.getElementById('ra-utm-medium');
+    const camp = document.getElementById('ra-utm-campaign');
+    if (src) src.value = attribution.utmSource;
+    if (med) med.value = attribution.utmMedium;
+    if (camp) camp.value = attribution.utmCampaign;
+    return attribution;
+  }
+
+  // ---------- lead magnet: pricing survey ----------
+  const leadMagnetForm = document.getElementById('lead-magnet-form');
+  if (leadMagnetForm) {
+    leadMagnetForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      const statusEl = document.getElementById('lm-status');
+      const email = document.getElementById('lm-email').value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!emailOk) {
+        statusEl.textContent = 'Enter a valid work email to receive the survey.';
+        statusEl.className = 'ra-status error';
+        return;
+      }
+      const attribution = readAttribution();
+      const subject = 'Q3 2026 Secondary Pricing Survey request';
+      const body = [
+        'Work email: ' + email,
+        'Referred by: ' + (attribution.ref || '—'),
+        'UTM source: ' + (attribution.utmSource || '—'),
+        'UTM medium: ' + (attribution.utmMedium || '—'),
+        'UTM campaign: ' + (attribution.utmCampaign || '—')
+      ].join('%0D%0A');
+      window.location.href = 'mailto:insights@secondariesmatch.com?subject=' + encodeURIComponent(subject) + '&body=' + body;
+      statusEl.textContent = 'Thanks — the Q3 2026 Secondary Pricing Survey will land in your inbox shortly.';
+      statusEl.className = 'ra-status success';
+      leadMagnetForm.reset();
+    });
+  }
+
+  // ---------- sticky secondary CTA ----------
+  (function initStickyCta(){
+    const bar = document.getElementById('sticky-cta');
+    const target = document.getElementById('request-access');
+    if (!bar || !target) return;
+    let targetInView = false;
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{ targetInView = entry.isIntersecting; });
+        updateStickyCta();
+      }, {threshold:0});
+      observer.observe(target);
+    }
+    function updateStickyCta(){
+      const pastHero = window.scrollY > window.innerHeight * 0.6;
+      bar.classList.toggle('visible', pastHero && !targetInView);
+    }
+    window.addEventListener('scroll', updateStickyCta, {passive:true});
+    updateStickyCta();
+  })();
+
+  applyAttribution();
   renderAll();
 })();
 </script>
