@@ -8,7 +8,7 @@
  * the concrete "tamper-evident" mechanism the spec calls for.
  */
 
-import { createHash } from "node:crypto";
+import { chainHash, GENESIS_HASH } from "./hashChainedLog.js";
 import type { Id } from "./entities.js";
 
 export type RiskTier = "T0" | "T1" | "T2" | "T3";
@@ -39,12 +39,6 @@ export interface LedgerRecord extends LedgerRecordInput {
   hash: string;
 }
 
-const GENESIS_HASH = "0".repeat(64);
-
-function sha256(input: string): string {
-  return createHash("sha256").update(input).digest("hex");
-}
-
 export class AuditLedger {
   #records: LedgerRecord[] = [];
 
@@ -52,9 +46,7 @@ export class AuditLedger {
     const prevHash = this.#records.at(-1)?.hash ?? GENESIS_HASH;
     const seq = this.#records.length;
     const timestamp = new Date().toISOString();
-
-    const payload = JSON.stringify({ ...input, seq, timestamp, prevHash });
-    const hash = sha256(payload);
+    const hash = chainHash({ ...input, seq, timestamp, prevHash });
 
     const record: LedgerRecord = { ...input, seq, timestamp, prevHash, hash };
     Object.freeze(record);
@@ -74,7 +66,7 @@ export class AuditLedger {
         return { valid: false, brokenAtSeq: record.seq };
       }
       const { seq, timestamp, prevHash, hash, ...rest } = record;
-      const recomputed = sha256(JSON.stringify({ ...rest, seq, timestamp, prevHash }));
+      const recomputed = chainHash({ ...rest, seq, timestamp, prevHash });
       if (recomputed !== hash) {
         return { valid: false, brokenAtSeq: record.seq };
       }
