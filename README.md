@@ -14,6 +14,11 @@ full audit trail from indication of interest to close.
   positioning versus the Park Hill / Evercore advisory model, the product and ML workstreams that
   win that position, and the model-risk and human-in-the-loop controls they ship under. Sequenced
   against the business roadmap's Phases 0–4.
+- [`docs/category-strategy.md`](docs/category-strategy.md) — category-creation thesis, a
+  sprint-level Phase 0/1 build plan (S0–S8), and search-term/SEO recommendations by funnel intent.
+- [`docs/legal/intake-agreement.md`](docs/legal/intake-agreement.md) — draft Portfolio Record and
+  Data Services Agreement for the S0 gate (a client's signed intake agreement, required before any
+  real portfolio document is ingested). **Outside-counsel-review draft — not for execution.**
 - [`.claude/agents/architect.md`](.claude/agents/architect.md) — the `architect` agent, a
   standing strategy function that keeps the roadmap current and stress-tests product/business
   decisions against it
