@@ -12,6 +12,9 @@ phases**. Where it proposes changes to an existing phase or gate, those changes 
 as amendments requiring founder sign-off and matched-pair edits per `docs/technical-roadmap.md` §11.
 **v1.1:** amendments A1–A5 in §5 are **adopted and in force** in `docs/roadmap.md` v1.1 and
 `docs/technical-roadmap.md` v1.1. See the status note in §5 for where each now lives.
+**v1.2:** adds §5.1 — amendments **A6–A9, proposed and not in force**, arising from
+[`docs/competitive-intelligence-lodas.md`](competitive-intelligence-lodas.md). No phases, gates, or
+existing amendments are changed by this revision.
 
 This document does not restate the phase structure, the workstream list, the incumbent process
 teardown, or the model-risk policy. Read those there. This document answers one question the other
@@ -579,6 +582,22 @@ documents in one change.
 | **A3** | `docs/technical-roadmap.md` §8: add **record coverage**, **transferability coverage**, and **price coverage** as first-class instrumented metrics owned by Head of Product, alongside the existing platform-data-share metric. | §1.6 — the measure is half the category, and an unmeasured coverage claim is exactly the kind of unfalsifiable assertion we criticize incumbents for. |
 | **A4** | `docs/roadmap.md` §3 Phase 2 and `docs/technical-roadmap.md` §5 Phase 2: extend the data-revenue gate to include *"recurring revenue from a seller under record who has not transacted."* | A dollar of record revenue is the first hard evidence the category exists as a budget line rather than as our vocabulary. |
 | **A5** | `docs/technical-roadmap.md` W0 data-rights clause (already a Phase 0 blocker): extend explicitly to documents and positions submitted **pre-transaction**, plus dormant-record retention, deletion rights, and processing scope. | The record exists before any deal does, which is a legal surface neither owner document currently covers. Retrofitting consent across executed agreements is the same expensive mistake W0 already warns about. |
+
+### 5.1 Amendments A6–A9 — arising from the LODAS Markets competitive review
+
+> **Status: A6–A9 PROPOSED, not in force.** Each requires founder sign-off and, on acceptance, a
+> matched-pair edit to `docs/roadmap.md` and `docs/technical-roadmap.md` in a single change per
+> `docs/technical-roadmap.md` §11. Full analysis, sourcing, and four-lens checks are in
+> [`docs/competitive-intelligence-lodas.md`](competitive-intelligence-lodas.md). Nothing below
+> restructures `docs/roadmap.md` §2A or `docs/technical-roadmap.md` W10; all four are **additive**
+> to content another workstream owns.
+
+| # | Amendment | Rationale |
+|---|---|---|
+| **A6** | `docs/technical-roadmap.md` W10: add a **T-4 — Register ownership** tier — evaluate SecondariesMatch (or an affiliate) acting as **registered transfer agent / registrar of record**, scoped initially to GP-led continuation vehicles where we can be named at formation. Phase 2: written counsel memo on registration cost and ongoing obligations, plus one CV sponsor agreed in principle. Phase 3: go/no-go. Never a substitute for the T-0 document path or for multi-administrator integration. | LODAS operates a registered transfer agent alongside its BD/ATS, which proves (a) a startup can own the register, and (b) sponsor exclusivity (BREIT/SREIT) is downstream of holding the last mile, not of relationships. Decisive for us: the §2A.3 transfer-capacity tracker is only **authoritative** if we are the registrar — as an integrator we reconstruct the count from cooperative counterparties. See CI doc §3. |
+| **A7** | `docs/roadmap.md` §3 Phase 1 and `docs/technical-roadmap.md` §5 Phase 1 (W1 row): add **cohort-scoped capital reservation** to the mandate registry — dated, committed buy-side capacity declared against a *cohort* (vintage × strategy × size × price ceiling), never against a listed position. Add the instrumented number *committed buy-side capacity by cohort, measured before seller outreach in that cohort* to `docs/technical-roadmap.md` §8, and to the Phase 1 gate: at least one cohort with reserved capacity ahead of supply. | LODAS solved cold-start by lining up institutional capital earmarked per product **before** opening the marketplace. Their unit (a fungible REIT share) does not port; the cohort does, and it is the object the standing demand map (§2.2 Screen 4) already needs. **Hard counsel gate:** reservation must never display as an executable price on a listing or trigger automatic matching — that is a firm quote and a PTP safe-harbour breach (`docs/roadmap.md` §2A.3). Tax *and* securities counsel review the wording before exposure. |
+| **A8** | `docs/roadmap.md` §3 Phase 2 and `docs/technical-roadmap.md` §5 Phase 2 (W10 row): add **one designated-transfer-venue arrangement with a GP** as a deliverable and gate item — a mid-market GP names the platform in its LP transfer policy as the venue through which transfer requests are processed, paired with the §2A.3 transfer-capacity tracker live for that fund. | This is the BREIT/SREIT exclusivity asset translated into the LP-interest regime: **sponsor-side designation, which is achievable, rather than an ATS, which is not.** It builds the same *shape* of asset LODAS built, in the market their architecture cannot enter. Highest-value single competitive counter identified in the review. |
+| **A9** | This document, §3.3 guardrails: add LODAS-adjacent and wealth-channel liquidity terms (`LODAS Markets alternative`, `non-traded REIT liquidity`, `BDC share liquidity`, `sell my REIT shares`) to the **exclusion** list. Add one Group D explainer distinguishing wealth-channel vehicle liquidity (corporate/RIC form, continuously quoted) from institutional LP-interest secondaries (partnership form, consent-gated, PTP-constrained). Add a **standing quarterly watch** on the five triggers in CI doc §8, owned by the regulatory-perimeter owner. | The traffic is advisor/retail — unserviceable by us and a compliance-filtering cost, per the guardrail §3.3 already states for `sell pre-IPO shares`. The market-structure explainer is the opposite trade: high citation value, zero retail lead capture, and it is the single most useful public artifact for a reader who has encountered both models and cannot tell them apart. |
 
 ---
 

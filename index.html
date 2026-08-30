@@ -134,9 +134,14 @@
   .track-step h4{font-size:15px;margin-bottom:6px;font-family:inherit;font-weight:600;}
   .track-step p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
 
-  .security-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px;}
+  .security-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin-top:40px;}
   .security-item h4{font-size:15px;margin:14px 0 6px;font-family:inherit;font-weight:600;}
   .security-item p{font-size:14px;color:var(--slate-500);line-height:20px;margin:0;}
+
+  .venue-notice{border-top:1px solid var(--line-200);margin-top:32px;padding-top:24px;}
+  .venue-notice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .venue-notice-grid p{font-size:13px;color:var(--slate-500);line-height:19px;margin:0;}
+  .venue-notice-grid strong{color:var(--ink-950);}
 
   .insights{background:var(--paper-50);}
   .insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px;}
@@ -208,6 +213,7 @@
     .hero h1{font-size:38px;}
     .stat-strip{grid-template-columns:repeat(2,1fr);}
     .track-grid,.featured-grid,.security-grid,.insight-grid,.footer-grid{grid-template-columns:1fr 1fr;}
+    .venue-notice-grid{grid-template-columns:1fr;}
     .nav-links{display:none;}
   }
 </style>
@@ -216,7 +222,7 @@
 
 <div class="utility-bar">
   <div class="wrap">
-    <div>Institutional access only &nbsp;·&nbsp; SOC 2 Type II &nbsp;·&nbsp; Member FINRA-registered broker-dealer network</div>
+    <div>Institutional access only &nbsp;·&nbsp; SOC 2 Type II program in progress &nbsp;·&nbsp; Broker-dealer registration in process — no live transactions until it (or an interim arrangement) is complete</div>
     <div style="display:flex;gap:20px;align-items:center;">
       <span>United States · USD</span>
       <a href="/sign-in">Sign In</a>
@@ -336,6 +342,14 @@
 
     <div class="table-wrap" id="table-wrap"></div>
     <div class="table-caption" id="table-caption"></div>
+
+    <div class="venue-notice">
+      <div class="venue-notice-grid">
+        <p><strong>Not a continuous order book.</strong> LP interests are quoted on an indicative, non-firm basis, with statutory notice and closing periods observed — protecting the fund's partnership tax status.</p>
+        <p><strong>Not a retail liquidity product.</strong> Institutional counterparties only, verified before any deal material is released.</p>
+        <p><strong>Not an advisor.</strong> The venue does not take a side; pricing evidence and process are the same for both counterparties.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -383,6 +397,11 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0E17" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 15l5-5 3 3 5-6"/></svg>
         <h4>Watermarked data rooms</h4>
         <p>Every diligence document is leak-traceable to the viewer.</p>
+      </div>
+      <div class="security-item">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0E17" stroke-width="1.5"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg>
+        <h4>Transfer compliance by design</h4>
+        <p>GP consent status, ROFR notice periods, and per-fund transfer capacity are tracked as part of the process, with source citations to the governing documents.</p>
       </div>
     </div>
     <div style="margin-top:32px;">
@@ -435,7 +454,7 @@
       </div>
     </div>
     <div class="footer-legal">
-      <div>© 2026 SecondariesMatch. Securities-related services offered through a registered broker-dealer network member. Available only to eligible institutional counterparties in permitted jurisdictions.</div>
+      <div>© 2026 SecondariesMatch. Broker-dealer registration in process; no live transactions are conducted until registration (or an interim arrangement) is complete. Available only to eligible institutional counterparties in permitted jurisdictions.</div>
       <span>LinkedIn (coming soon)</span>
     </div>
   </div>
@@ -489,7 +508,9 @@
   </div>
 
   <div class="modal-body" id="modal-step-verify" style="display:none;">
-    <div style="font-size:14px;color:#333B4F;line-height:21px;">Your first bid on SecondariesMatch requires a one-time accreditation check. It's pre-filled from what you told us at sign-up — this takes under four minutes and never appears again.</div>
+    <div style="font-size:14px;color:#333B4F;line-height:21px;">
+      Your first bid on SecondariesMatch requires a one-time verification, covering: entity formation documents, beneficial-ownership disclosure, accreditation or qualified-purchaser evidence, an authorised-signer list, and sanctions screening. Completed once per account; it never appears again.
+    </div>
     <div>
       <label>Investor type</label>
       <select id="m-accred-type">
